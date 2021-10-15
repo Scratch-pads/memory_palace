@@ -1,17 +1,42 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, {useState} from "react";
+import ReactDOM from "react-dom"
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import Main_Menu from "./main_menu"
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+import "./css/common.css"
+
+import {ThemeProvider} from "styled-components";
+import { GlobalStyles } from "./css/components/globalStyles.js";
+import { lightTheme, darkTheme } from "./css/components/Themes";
+
+const Main_Palace = () => {
+
+    const [theme, setTheme] = useState(
+        localStorage.getItem('theme') === 'light'
+            ? localStorage.getItem('theme')
+            : 'dark'
+    );
+
+    const themeToggle = () => {
+        theme === 'light' ? setTheme('dark') : setTheme('light');
+        if (theme === 'light') {
+            setTheme('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            setTheme('light');
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    return(
+        <div id="container_palace">
+            <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+                <GlobalStyles />
+                <div id={"test-node"}></div>
+            </ThemeProvider>
+        </div>
+    )
+}
+
+ReactDOM.render(<Main_Palace/>, document.getElementById("root"));
+ReactDOM.render(<Main_Menu/>, document.getElementById("test-node"))
