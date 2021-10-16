@@ -415,6 +415,9 @@ h3{
     width: 600px;
     height: 600px;
     margin: 200px auto 0 auto;
+
+    border: 1px solid skyblue;
+    border-radius: 15px;
 }
 
 #main_menu{
@@ -430,4 +433,42 @@ h3{
     width: 60%;
     /*padding: 10px;*/
     margin: 0 auto 0 auto;
+    text-align: center;
+}
+
+#game {
+    /*border: 1px solid crimson;*/
+    display: flex;
+    height: 95%;
+    width: 95%;
+    border-radius: 15px;
+    padding: 1rem;
+}
+
+.game-panel{
+    display: grid;
+    grid-template-rows: 70% 30%;
+    border: 1px solid floralwhite;
+}
+
+.game-side-panel{
+    width: 20%;
+}
+.game-main-panel{
+    width: 60%;
+}
+
+.game-panel-split-large{
+    border: 1px solid floralwhite;
+}
+.game-panel-split-small{
+}
+
+#game-recall-btns{
+    display: flex;
+    justify-content: center;
+}
+
+#cards_display{
+    text-align: center;
 }

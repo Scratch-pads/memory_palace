@@ -11,32 +11,34 @@ import { lightTheme, darkTheme } from "./css/components/Themes";
 
 const Main_Palace = () => {
 
-    const [theme, setTheme] = useState(
+    const [theme,
+        // setTheme
+    ] = useState(
         localStorage.getItem('theme') === 'light'
             ? localStorage.getItem('theme')
             : 'dark'
     );
 
-    const themeToggle = () => {
-        theme === 'light' ? setTheme('dark') : setTheme('light');
-        if (theme === 'light') {
-            setTheme('dark');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            setTheme('light');
-            localStorage.setItem('theme', 'light');
-        }
-    }
+    // const themeToggle = () => {
+    //     theme === 'light' ? setTheme('dark') : setTheme('light');
+    //     if (theme === 'light') {
+    //         setTheme('dark');
+    //         localStorage.setItem('theme', 'dark');
+    //     } else {
+    //         setTheme('light');
+    //         localStorage.setItem('theme', 'light');
+    //     }
+    // }
 
     return(
         <div id="container_palace">
             <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
                 <GlobalStyles />
-                <div id={"test-node"}></div>
+
             </ThemeProvider>
         </div>
     )
 }
 
 ReactDOM.render(<Main_Palace/>, document.getElementById("root"));
-ReactDOM.render(<Main_Menu/>, document.getElementById("test-node"))
+ReactDOM.render(<Main_Menu/>, document.getElementById("container_palace"))

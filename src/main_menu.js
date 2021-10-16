@@ -1,12 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom"
 
+
+//game sections
+import Game from "./game";
+
 const Main_Menu = () => {
 
     const onClickRenderGame = () => {
         ReactDOM.render(
-            <div>kutas123</div>,
-            document.getElementById("test-node"))
+            <Game />,
+            document.getElementById("container_palace"))
     }
 
     const onClickRenderTutorial = () => {
