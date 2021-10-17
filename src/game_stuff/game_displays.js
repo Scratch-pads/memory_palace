@@ -5,10 +5,15 @@ const Cards_Display = (props) => {
 
     return(
         <div id={"cards_display"}>
-            {props.phase === 1 ? props.shuffled_deck[props.shuffled_deck_count] : null}
+            {props.phase === 1 ? props.shuffled_deck[props.cards_to_recall - 1] : null}
+
             {props.phase === 2 ? <p>use this time to recall the order of cards in your mind</p> : null}
+
             {props.phase === 3 && props.recall_check === false ? props.shuffled_deck[props.cards_recalled] : null}
-            {props.phase === 3 && props.recall_check === true ? <p>What's the next card?</p> : null}
+
+            {props.phase === 3 && props.recall_check === true && props.cards_recalled !== props.cards_to_recall ? <p>What's the next card?</p> : null}
+
+            {props.phase === 3 && props.cards_recalled === props.cards_to_recall ? <p>End Game. Here are your stats:</p> : null}
         </div>
     )
 }

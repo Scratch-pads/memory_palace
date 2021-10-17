@@ -44,9 +44,9 @@ const Incorrect_Recall = (props) => {
 
     return(
         <div id={"incorrect-recall"} className={"btn-palace clickable clickablePassive"}
-             onClick={props.recall_check}>
-            <p>Incorrect Recall</p>
-            <FontAwesomeIcon icon={faTimesCircle} size={"3x"}/>
+             onClick={props.force_recall_check}>
+            <p id={"incorrect-recall"}>Incorrect Recall</p>
+            <FontAwesomeIcon id={"incorrect-recall"} icon={faTimesCircle} size={"3x"}/>
         </div>
     )
 }
@@ -54,11 +54,13 @@ const Incorrect_Recall = (props) => {
 const Correct_Recall = (props) => {
     //will need functionality to add stuff to stats and all
 
+
     return(
-        <div id="correct-recall" className={"btn-palace clickable clickablePassive"}
-             onClick={props.recall_check}>
-            <p>Correct Recall</p>
-            <FontAwesomeIcon icon={faCheckCircle} size={"3x"} />
+        <div id={"correct-recall"}
+             className={"btn-palace clickable clickablePassive"}
+             onClick={props.force_recall_check}>
+            <p id={"correct-recall"} >Correct Recall</p>
+            <FontAwesomeIcon id={"correct-recall"} icon={faCheckCircle} size={"3x"} />
         </div>
     )
 }
@@ -66,8 +68,10 @@ const Correct_Recall = (props) => {
 const Start_Pause_Resume_Game = (props) => {
     //this will stop timers and disable all buttons apart from the Menu btn
 
+
     return(
-        <div className="clickable clickablePassive btn-palace">
+        <div className="clickable clickablePassive btn-palace"
+             onClick={props.show_deck}>
             Start / Pause / Resume
         </div>
     )
