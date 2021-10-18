@@ -13,7 +13,7 @@ const Cards_Display = (props) => {
 
             {props.phase === 3 && props.recall_check === true && props.cards_recalled !== props.cards_to_recall ? <p>What's the next card?</p> : null}
 
-            {props.phase === 3 && props.cards_recalled === props.cards_to_recall ? <p>End Game. Here are your stats:</p> : null}
+            {props.phase === 4 ? <p>End Game. Here are your stats:</p> : null}
         </div>
     )
 }
@@ -25,6 +25,7 @@ const To_Recall = (props) => {
         <div id={"to_recall"} className={"recall_display clickablePassive"}>
             <p>Cards to Recall:</p>
             <p>{props.cards_to_recall}</p>
+            <p>Phase:</p>
             <p>{props.phase}</p>
         </div>
     )
@@ -37,6 +38,8 @@ const Recalled = (props) => {
         <div id={"to_recall"} className={"recall_display clickablePassive"}>
             <p>Cards Recalled:</p>
             <p>{props.cards_recalled}</p>
+            <p>Incorrect Recalls:</p>
+            <p>{props.incorrect_recalls}</p>
         </div>
     )
 }

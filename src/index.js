@@ -4,6 +4,7 @@ import ReactDOM from "react-dom"
 import Main_Menu from "./main_menu"
 
 import "./css/common.css"
+import "./css/memory_palace/common_palace.css"
 
 import {ThemeProvider} from "styled-components";
 import { GlobalStyles } from "./css/components/globalStyles.js";

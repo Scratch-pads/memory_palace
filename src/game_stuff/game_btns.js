@@ -17,9 +17,14 @@ const Skip_or_End = (props) => {
     //phase the player's in
 
     return(
-        <div className="game-phase-btn clickable clickablePassive"
+        <div className="game-phase-btn btn-palace clickable clickablePassive"
              onClick={props.skip_phase}>
-            Skip phase / End Game
+            {props.phase < 3
+                ? <p>Skip phase</p>
+                : <p>End Game</p>}
+
+
+            {/*<p>End Game</p>*/}
         </div>
     )
 }
@@ -33,8 +38,17 @@ const Next_Card = (props) => {
     //make the text change dynamically
 
     return(
-        <div className="game-phase-btn clickable clickablePassive" onClick={props.roll_shuffled_deck}>
-            Next Card/ Next Phase/ End Game
+        <div className="game-phase-btn btn-palace clickable clickablePassive"
+             onClick={props.roll_shuffled_deck}>
+            {props.phase === 1 && props.cards_to_recall < props.shuffled_deck ? <p>Next Card</p> : null}
+            {props.phase === 1 && props.cards_to_recall === props.shuffled_deck ? <p>Next Phase</p> : null}
+            {props.phase === 2 ? <p>Next Phase</p> : null}
+            {props.phase === 3 && props.cards_recalled <= props.cards_to_recall ? <p>Next Card</p> : null}
+            {props.phase === 4 ? <p>End Game</p> : null}
+
+            {/*<p>Next Card</p>*/}
+            {/*<p>Next Phase</p>*/}
+            {/*<p>End Game</p>*/}
         </div>
     )
 }

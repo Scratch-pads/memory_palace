@@ -57,7 +57,6 @@ class Game extends React.Component {
         const {phase, shuffled_deck, cards_to_recall, cards_recalled, recall_check} = this.state;
 
         if(phase === 1){
-
             if(cards_to_recall <= shuffled_deck.length - 1){
                 this.setState({
                     cards_to_recall: cards_to_recall + 1
@@ -67,27 +66,20 @@ class Game extends React.Component {
                     phase: 2
                 })
             }
-
         } else if (phase === 2){
             this.setState({
                 phase: 3
             })
         } else if (phase === 3 && recall_check === true && cards_to_recall > cards_recalled){
-
             this.setState({
                 recall_check: false
             })
-
-            console.log(cards_to_recall)
-            console.log(cards_recalled)
         }
-
     }
 
     force_recall_check = (e) => {
-        const {phase, recall_check, incorrect_recalls, cards_recalled} = this.state;
+        const {phase, recall_check, incorrect_recalls, cards_recalled, cards_to_recall} = this.state;
 
-        //
         if (phase === 3 && recall_check === false){
 
             //count incorrect recalls
@@ -107,13 +99,30 @@ class Game extends React.Component {
                 cards_recalled: cards_recalled + 1,
                 recall_check: true
             })
+
+            //end game if cards_recalled === cards_to_recall - 1
+            //the reason why the game seems to be ended prematurely is because 'recall check' buttons
+            //need to end the game. However, if they do so only when cards_recalled === cards_to_recall,
+            //it is not possible the increment cards_recalled and jump to phase 4 at the same time.
+            //And this button needs to do both.
+            //It can do so when phase jump occurs at cards_recalled === cards_to_recall - 1
+            //(P.S This is a dog shit explanation. I need to re-write this
+            if (cards_recalled === cards_to_recall - 1){
+                this.setState({
+                    phase: 4
+                })
+            }
+
+            console.log(cards_to_recall)
+            console.log(cards_recalled)
+            console.log(phase)
         }
     }
 
     skip_phase = () => {
         const {phase} = this.state;
 
-        if(phase < 3){
+        if(phase < 4){
             this.setState({
                 phase: phase + 1
             })
@@ -122,6 +131,10 @@ class Game extends React.Component {
 
     spit_shuffled_deck = () => {
         console.log(this.state.shuffled_deck)
+        console.log("phase: " + this.state.phase)
+        console.log("cards to recall: " + this.state.cards_to_recall)
+        console.log("cards recalled: " + this.state.cards_recalled)
+
     }
 
     render() {
@@ -129,7 +142,9 @@ class Game extends React.Component {
             <div id="game" className={"panel-background"}>
                 <div className={"game-panel game-side-panel"}>
                     <div className={"game-panel-split-large"}>
-                        <btns.Skip_or_End skip_phase={this.skip_phase}/>
+                        <btns.Skip_or_End
+                            skip_phase={this.skip_phase}
+                            phase={this.state.phase}/>
                     </div>
                     <div className={"game-panel-split-small"}>
                         <displays.To_Recall
@@ -147,20 +162,30 @@ class Game extends React.Component {
                             recall_check={this.state.recall_check}/>
                     </div>
                     <div className={"game-panel-split-small"} >
-                        <div id="game-recall-btns">
-                            <btns.Incorrect_Recall force_recall_check={this.force_recall_check}/>
-                            <btns.Correct_Recall force_recall_check={this.force_recall_check}/>
-                        </div>
+                        {this.state.phase === 3
+                            ? <div id="game-recall-btns">
+                                <btns.Incorrect_Recall force_recall_check={this.force_recall_check}/>
+                                <btns.Correct_Recall force_recall_check={this.force_recall_check}/>
+                            </div>
+                            : null
+                        }
                         <btns.Start_Pause_Resume_Game show_deck={this.spit_shuffled_deck}/>
                         <btns.Menu_btn />
                     </div>
                 </div>
                 <div className={"game-panel game-side-panel"}>
                     <div className={"game-panel-split-large"}>
-                        <btns.Next_Card roll_shuffled_deck={this.roll_shuffled_deck}/>
+                        <btns.Next_Card
+                            roll_shuffled_deck={this.roll_shuffled_deck}
+                            phase={this.state.phase}
+                            shuffled_deck={this.state.shuffled_deck.length}
+                            cards_to_recall={this.state.cards_to_recall}
+                            cards_recalled={this.state.cards_recalled}/>
                     </div>
                     <div className={"game-panel-split-small"}>
-                        <displays.Recalled cards_recalled={this.state.cards_recalled}/>
+                        <displays.Recalled
+                            cards_recalled={this.state.cards_recalled}
+                            incorrect_recalls={this.state.incorrect_recalls}/>
                     </div>
                 </div>
             </div>
