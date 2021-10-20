@@ -10,6 +10,8 @@ const sorted_deck = [
     "A S", "2 S", "3 S", "4 S", "5 S", "6 S", "7 S", "8 S", "9 S", "10 S", "J S", "Q S", "K S",
 ]
 
+let time_start_phase_1, time_end_phase_1;
+
 class Game extends React.Component {
     constructor(props) {
         super(props);
@@ -24,16 +26,16 @@ class Game extends React.Component {
             time_phase_1: null,
             time_phase_2: null,
             time_phase_3: null,
-            time_total: null
+            time_total: null,
+
+            //for testing
+            stop_time: false
         }
 
         this.shuffle_deck = this.shuffle_deck.bind(this);
         this.roll_shuffled_deck = this.roll_shuffled_deck.bind(this);
         this.skip_phase = this.skip_phase.bind(this);
         this.force_recall_check = this.force_recall_check.bind(this);
-
-        this.spit_shuffled_deck = this.spit_shuffled_deck.bind(this);
-
     }
 
     shuffle_deck = (deck) => {
@@ -53,30 +55,69 @@ class Game extends React.Component {
         return deck;
     }
 
+    //stopwatch functions
+    stopwatch_phase_1_start = () => {
+        time_start_phase_1 = new Date();
+    }
+
+    stopwatch_phase_1_end = () => {
+        time_end_phase_1 = new Date();
+        return Math.round(time_end_phase_1 - time_start_phase_1)/1000;
+    }
+
+    //other stuffs
     roll_shuffled_deck = () => {
-        const {phase, shuffled_deck, cards_to_recall, cards_recalled, recall_check} = this.state;
+        const {phase, shuffled_deck, cards_to_recall, cards_recalled, recall_check, stop_time} = this.state;
 
         if(phase === 0){
             this.setState({
                 phase: 1
             })
         }else if(phase === 1){
+
+            //start phase 1 stopwatch
+            if(cards_to_recall === 1){
+                this.stopwatch_phase_1_start();
+            }
+
+
             if(cards_to_recall <= shuffled_deck.length - 1){
                 this.setState({
                     cards_to_recall: cards_to_recall + 1
                 })
             } else if (cards_to_recall === shuffled_deck.length){
+                //end phase 1 stopwatch
+                console.log(this.stopwatch_phase_1_end());
+                //start phase 2 stopwatch
+                this.stopwatch_phase_1_start();
+
                 this.setState({
                     phase: 2
                 })
             }
         } else if (phase === 2){
+
             this.setState({
                 phase: 3
             })
         } else if (phase === 3 && recall_check === true && cards_to_recall > cards_recalled){
             this.setState({
                 recall_check: false
+            })
+        }
+    }
+
+    skip_phase = () => {
+        const {phase, cards_to_recall, time_stop} = this.state;
+
+        if(phase < 4 && cards_to_recall > 0){
+
+            if(phase === 1){
+                console.log(this.stopwatch_phase_1_end());
+            }
+
+            this.setState({
+                phase: phase + 1
             })
         }
     }
@@ -123,21 +164,21 @@ class Game extends React.Component {
         }
     }
 
-    skip_phase = () => {
-        const {phase} = this.state;
-
-        if(phase < 4){
-            this.setState({
-                phase: phase + 1
-            })
-        }
-}
-
+    //this is linked to Pause btn. Will have to be removed. For testing purposes
     spit_shuffled_deck = () => {
         console.log(this.state.shuffled_deck)
         console.log("phase: " + this.state.phase)
         console.log("cards to recall: " + this.state.cards_to_recall)
         console.log("cards recalled: " + this.state.cards_recalled)
+    }
+
+
+
+    stopwatch_phase_2 = () => {
+
+    }
+
+    stopwatch_phase_3 = () => {
 
     }
 
