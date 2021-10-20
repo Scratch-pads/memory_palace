@@ -15,7 +15,15 @@ const Cards_Display = (props) => {
 
             {props.phase === 3 && props.recall_check === true && props.cards_recalled !== props.cards_to_recall ? <p>What's the next card?</p> : null}
 
-            {props.phase === 4 ? <p>End Game. Here are your stats:</p> : null}
+            {props.phase === 4
+                ? <div>
+                    <p>End Game. Here are your stats:</p>
+                    <p>Phase 1 time: {props.time_phase_1}</p>
+                    <p>Phase 2 time: {props.time_phase_2}</p>
+                    <p>Phase 3 time: {props.time_phase_3}</p>
+                </div>
+
+                : null}
         </div>
     )
 }

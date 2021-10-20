@@ -10,7 +10,7 @@ const sorted_deck = [
     "A S", "2 S", "3 S", "4 S", "5 S", "6 S", "7 S", "8 S", "9 S", "10 S", "J S", "Q S", "K S",
 ]
 
-let time_start_phase_1, time_end_phase_1;
+let time_start, time_end;
 
 class Game extends React.Component {
     constructor(props) {
@@ -56,28 +56,32 @@ class Game extends React.Component {
     }
 
     //stopwatch functions
-    stopwatch_phase_1_start = () => {
-        time_start_phase_1 = new Date();
+    stopwatch_start = () => {
+        time_start = new Date();
     }
 
-    stopwatch_phase_1_end = () => {
-        time_end_phase_1 = new Date();
-        return Math.round(time_end_phase_1 - time_start_phase_1)/1000;
+    stopwatch_end = () => {
+        time_end = new Date();
+        return Math.round(time_end - time_start)/1000;
     }
 
     //other stuffs
     roll_shuffled_deck = () => {
-        const {phase, shuffled_deck, cards_to_recall, cards_recalled, recall_check, stop_time} = this.state;
+        const {phase, shuffled_deck, cards_to_recall, cards_recalled,
+            recall_check, stop_time} = this.state;
 
         if(phase === 0){
             this.setState({
                 phase: 1
             })
+
+
         }else if(phase === 1){
 
             //start phase 1 stopwatch
-            if(cards_to_recall === 1){
-                this.stopwatch_phase_1_start();
+            if(cards_to_recall === 0){
+                this.stopwatch_start();
+                console.log("phase 1 timer has started")
             }
 
 
@@ -86,24 +90,38 @@ class Game extends React.Component {
                     cards_to_recall: cards_to_recall + 1
                 })
             } else if (cards_to_recall === shuffled_deck.length){
-                //end phase 1 stopwatch
-                console.log(this.stopwatch_phase_1_end());
-                //start phase 2 stopwatch
-                this.stopwatch_phase_1_start();
 
+                //end phase 1 stopwatch
                 this.setState({
-                    phase: 2
+                    phase: 2,
+                    time_phase_1: this.stopwatch_end()
                 })
+                console.log("phase 1 timer has stopped");
+
+                //start phase 2 stopwatch
+                this.stopwatch_start();
+                console.log("phase 2 timer has started")
             }
+
+
         } else if (phase === 2){
 
+            //end phase2 stopwatch
             this.setState({
-                phase: 3
+                phase: 3,
+                time_phase_2: this.stopwatch_end()
             })
+            console.log("phase 2 timer has stopped")
+
+            //start phase 3 stopwatch
+            this.stopwatch_start()
+            console.log("phase 3 timer has started")
+
         } else if (phase === 3 && recall_check === true && cards_to_recall > cards_recalled){
             this.setState({
                 recall_check: false
             })
+            //phase 3 stopwatch ends when recall buttons are pressed
         }
     }
 
@@ -113,8 +131,30 @@ class Game extends React.Component {
         if(phase < 4 && cards_to_recall > 0){
 
             if(phase === 1){
-                console.log(this.stopwatch_phase_1_end());
+                this.setState({
+                    time_phase_1: this.stopwatch_end()
+                })
+                console.log("phase 1 timer has stopped")
+
+                this.stopwatch_start()
+                console.log("phase 2 timer has started")
             }
+            if(phase === 2){
+                this.setState({
+                    time_phase_2: this.stopwatch_end()
+                })
+                console.log("phase 2 timer has stopped")
+
+                this.stopwatch_start()
+                console.log("phase 3 timer has started")
+            }
+            if(phase === 3){
+                this.setState({
+                    time_phase_3: this.stopwatch_end()
+                })
+                console.log("phase 3 timer has stopped")
+            }
+
 
             this.setState({
                 phase: phase + 1
@@ -154,13 +194,11 @@ class Game extends React.Component {
             //(P.S This is a dog shit explanation. I need to re-write this
             if (cards_recalled === cards_to_recall - 1){
                 this.setState({
-                    phase: 4
+                    phase: 4,
+                    time_phase_3: this.stopwatch_end()
                 })
+                console.log("phase 3 timer has stopped")
             }
-
-            console.log(cards_to_recall)
-            console.log(cards_recalled)
-            console.log(phase)
         }
     }
 
@@ -170,16 +208,6 @@ class Game extends React.Component {
         console.log("phase: " + this.state.phase)
         console.log("cards to recall: " + this.state.cards_to_recall)
         console.log("cards recalled: " + this.state.cards_recalled)
-    }
-
-
-
-    stopwatch_phase_2 = () => {
-
-    }
-
-    stopwatch_phase_3 = () => {
-
     }
 
     render() {
@@ -204,7 +232,10 @@ class Game extends React.Component {
                             shuffled_deck={this.state.shuffled_deck}
                             cards_to_recall={this.state.cards_to_recall}
                             cards_recalled={this.state.cards_recalled}
-                            recall_check={this.state.recall_check}/>
+                            recall_check={this.state.recall_check}
+                            time_phase_1={this.state.time_phase_1}
+                            time_phase_2={this.state.time_phase_2}
+                            time_phase_3={this.state.time_phase_3}/>
                     </div>
                     <div className={"game-panel-split-small"} >
                         {this.state.phase === 3
