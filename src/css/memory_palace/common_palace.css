@@ -53,6 +53,10 @@
 .game-panel-split-small{
 }
 
+#btn-return-main-menu{
+    margin-top: 50px;
+}
+
 .game-phase-btn{
     display: grid;
     height: 90%;

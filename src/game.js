@@ -15,9 +15,9 @@ class Game extends React.Component {
         super(props);
         this.state = {
             game_active: false,
-            phase: 1,
+            phase: 0,
             shuffled_deck: this.shuffle_deck(sorted_deck),
-            cards_to_recall: 1,
+            cards_to_recall: 0,
             cards_recalled: 0,
             recall_check: true,
             incorrect_recalls: 0,
@@ -56,7 +56,11 @@ class Game extends React.Component {
     roll_shuffled_deck = () => {
         const {phase, shuffled_deck, cards_to_recall, cards_recalled, recall_check} = this.state;
 
-        if(phase === 1){
+        if(phase === 0){
+            this.setState({
+                phase: 1
+            })
+        }else if(phase === 1){
             if(cards_to_recall <= shuffled_deck.length - 1){
                 this.setState({
                     cards_to_recall: cards_to_recall + 1

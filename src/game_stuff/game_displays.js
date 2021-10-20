@@ -5,6 +5,8 @@ const Cards_Display = (props) => {
 
     return(
         <div id={"cards_display"}>
+            {props.phase === 0 ? <p>Start Game</p> : null}
+
             {props.phase === 1 ? props.shuffled_deck[props.cards_to_recall - 1] : null}
 
             {props.phase === 2 ? <p>use this time to recall the order of cards in your mind</p> : null}
