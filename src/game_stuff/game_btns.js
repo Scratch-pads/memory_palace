@@ -59,9 +59,6 @@ const Incorrect_Recall = (props) => {
 }
 
 const Correct_Recall = (props) => {
-    //will need functionality to add stuff to stats and all
-
-
     return(
         <div id={"correct-recall"}
              className={"btn-palace clickable clickablePassive"}
@@ -73,13 +70,10 @@ const Correct_Recall = (props) => {
 }
 
 const Start_Pause_Resume_Game = (props) => {
-    //this will stop timers and disable all buttons apart from the Menu btn
-
-
     return(
         <div className="clickable clickablePassive btn-palace"
              onClick={props.show_deck}>
-            Start / Pause / Resume
+            Pause / Resume
         </div>
     )
 }

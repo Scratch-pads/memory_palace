@@ -18,9 +18,17 @@ const Cards_Display = (props) => {
             {props.phase === 4
                 ? <div>
                     <p>End Game. Here are your stats:</p>
-                    <p>Phase 1 time: {props.time_phase_1}</p>
-                    <p>Phase 2 time: {props.time_phase_2}</p>
-                    <p>Phase 3 time: {props.time_phase_3}</p>
+                    <br/>
+                    <h3>Memorization Phase:</h3>
+                    <p>Time elapsed: {props.time_phase_1} seconds</p>
+                    <p>Cards memorized: {props.cards_to_recall}</p>
+
+                    <h3>Reinforcement Phase</h3>
+                    <p>Time elapsed: {props.time_phase_2} seconds</p>
+
+                    <h3>Recall Phase:</h3>
+                    <p>Time elapsed: {props.time_phase_3} seconds</p>
+                    <p>Cards recalled: {props.cards_recalled}</p>
                 </div>
 
                 : null}
@@ -35,8 +43,6 @@ const To_Recall = (props) => {
         <div id={"to_recall"} className={"recall_display clickablePassive"}>
             <p>Cards to Recall:</p>
             <p>{props.cards_to_recall}</p>
-            <p>Phase:</p>
-            <p>{props.phase}</p>
         </div>
     )
 }
@@ -48,8 +54,6 @@ const Recalled = (props) => {
         <div id={"to_recall"} className={"recall_display clickablePassive"}>
             <p>Cards Recalled:</p>
             <p>{props.cards_recalled}</p>
-            <p>Incorrect Recalls:</p>
-            <p>{props.incorrect_recalls}</p>
         </div>
     )
 }
