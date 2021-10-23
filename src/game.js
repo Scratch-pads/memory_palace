@@ -27,6 +27,7 @@ class Game extends React.Component {
             time_phase_2: null,
             time_phase_3: null,
             time_total: null,
+            pause: false,
 
             //for testing
             stop_time: false
