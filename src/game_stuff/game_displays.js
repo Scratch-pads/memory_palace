@@ -6,29 +6,36 @@ const Cards_Display = (props) => {
     return(
         <div id={"cards_display"}>
             {props.phase === 0 ? <p>Start Game</p> : null}
-
             {props.phase === 1 ? props.shuffled_deck[props.cards_to_recall - 1] : null}
-
             {props.phase === 2 ? <p>use this time to recall the order of cards in your mind</p> : null}
-
             {props.phase === 3 && props.recall_check === false ? props.shuffled_deck[props.cards_recalled] : null}
-
             {props.phase === 3 && props.recall_check === true && props.cards_recalled !== props.cards_to_recall ? <p>What's the next card?</p> : null}
-
             {props.phase === 4
                 ? <div>
-                    <p>End Game. Here are your stats:</p>
-                    <br/>
+                    <h2>Here are your stats:</h2>
                     <h3>Memorization Phase:</h3>
-                    <p>Time elapsed: {props.time_phase_1} seconds</p>
+                    <p>Time elapsed:_
+                        {Math.round((props.time_phase_1 + Number.EPSILON) * 100) / 100}
+                        _seconds</p>
                     <p>Cards memorized: {props.cards_to_recall}</p>
 
                     <h3>Reinforcement Phase</h3>
-                    <p>Time elapsed: {props.time_phase_2} seconds</p>
+                    <p>Time elapsed:_
+                        {Math.round((props.time_phase_2 + Number.EPSILON) * 100) / 100}
+                        _seconds</p>
 
                     <h3>Recall Phase:</h3>
-                    <p>Time elapsed: {props.time_phase_3} seconds</p>
+                    <p>Time elapsed:_
+                        {Math.round((props.time_phase_3 + Number.EPSILON) * 100) / 100}
+                        _seconds</p>
                     <p>Cards recalled: {props.cards_recalled}</p>
+                    <p>Incorrect Recalls: {props.incorrect_recalls}</p>
+                    <p>Recall Rate:_
+                        {Math.round((100 - (props.incorrect_recalls / props.cards_recalled * 100)) * 100) / 100 }
+                        %</p>
+                    <p>Pause Time Total:_
+                        {Math.round((props.time_paused + Number.EPSILON) * 100) / 100}
+                    _seconds</p>
                 </div>
 
                 : null}

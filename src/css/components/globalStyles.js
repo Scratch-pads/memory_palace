@@ -41,6 +41,9 @@ const GlobalStyles = createGlobalStyle`
   .form-control:hover, .form-control:active{
     background: ${({ theme }) => theme.clickable};
   }
+  
+  .paused{
+    background-color: ${({ theme }) => theme.paused}
   `
 
 export {GlobalStyles};

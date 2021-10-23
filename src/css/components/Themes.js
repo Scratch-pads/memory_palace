@@ -10,7 +10,9 @@ const lightTheme = {
     clickable: '#f8edd2',
     clickableIcon: '#af4100',
 
-    menuExpandedBtns: '#f8edd2'
+    menuExpandedBtns: '#f8edd2',
+
+    paused: '#4d4c4c'
 }
 const darkTheme = {
     body: '#363537',
@@ -23,7 +25,10 @@ const darkTheme = {
     clickablePassive: '#292934',
     clickable: '#6B8096',
     clickableIcon: '#85a6cb',
-    formControl: '#FAFAFA'
+
+    formControl: '#FAFAFA',
+
+    paused: '#4d4c4c'
 }
 
 export {lightTheme, darkTheme}

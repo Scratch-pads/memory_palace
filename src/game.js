@@ -23,20 +23,20 @@ class Game extends React.Component {
             cards_recalled: 0,
             recall_check: true,
             incorrect_recalls: 0,
-            time_phase_1: null,
-            time_phase_2: null,
-            time_phase_3: null,
-            time_total: null,
-            pause: false,
-
-            //for testing
-            stop_time: false
+            time_holder: 0,
+            time_paused: 0,
+            time_phase_1: 0,
+            time_phase_2: 0,
+            time_phase_3: 0,
+            time_phase_total: 0,
+            paused: false
         }
 
         this.shuffle_deck = this.shuffle_deck.bind(this);
         this.roll_shuffled_deck = this.roll_shuffled_deck.bind(this);
         this.skip_phase = this.skip_phase.bind(this);
         this.force_recall_check = this.force_recall_check.bind(this);
+        this.pause_resume = this.pause_resume.bind(this);
     }
 
     shuffle_deck = (deck) => {
@@ -60,156 +60,206 @@ class Game extends React.Component {
     stopwatch_start = () => {
         time_start = new Date();
     }
-
     stopwatch_end = () => {
         time_end = new Date();
         return Math.round(time_end - time_start)/1000;
     }
 
+    pause_resume = () => {
+        const {phase, paused, time_holder, time_paused, cards_to_recall} = this.state;
+
+        let game_btns = ["skip-phase", "next-card", "incorrect-recall", "correct-recall"];
+        if(phase !== 3){
+            game_btns.splice(2)
+        }
+
+        if(cards_to_recall > 0 && phase < 4){
+            if(!paused){
+                //visual disable
+                game_btns.forEach(element => {
+                    document.getElementById(element).classList.replace("clickablePassive", "paused")
+                    document.getElementById(element).classList.remove("clickable")
+                })
+
+                //stop phase timer and start pause timer
+                this.setState({
+                    paused: true,
+                    time_holder: time_holder + this.stopwatch_end()
+                })
+                this.stopwatch_start()
+
+            } else {
+                //visual disable
+                game_btns.forEach(element => {
+                    document.getElementById(element).classList.replace("paused", "clickablePassive")
+                    document.getElementById(element).classList.add("clickable")
+                })
+
+                //stop pause timer and start phase timer
+                this.setState({
+                    paused: false,
+                    time_paused: time_paused + this.stopwatch_end()
+                })
+                this.stopwatch_start()
+            }
+        }
+
+
+        console.log("time_paused: " + time_paused)
+        console.log("time_holder: " + time_holder)
+    }
+
     //other stuffs
     roll_shuffled_deck = () => {
         const {phase, shuffled_deck, cards_to_recall, cards_recalled,
-            recall_check, stop_time} = this.state;
+            recall_check, paused, time_holder} = this.state;
 
-        if(phase === 0){
-            this.setState({
-                phase: 1
-            })
+        if(!paused){
 
-
-        }else if(phase === 1){
-
-            //start phase 1 stopwatch
-            if(cards_to_recall === 0){
-                this.stopwatch_start();
-                console.log("phase 1 timer has started")
-            }
-
-
-            if(cards_to_recall <= shuffled_deck.length - 1){
+            //game start
+            if(phase === 0){
                 this.setState({
-                    cards_to_recall: cards_to_recall + 1
+                    phase: 1
                 })
-            } else if (cards_to_recall === shuffled_deck.length){
 
-                //end phase 1 stopwatch
+            }else if(phase === 1){
+
+                //start phase 1 stopwatch
+                if(cards_to_recall === 0){
+                    this.stopwatch_start();
+                    console.log("phase 1 timer has started")
+                }
+
+                //roll through deck
+                if(cards_to_recall <= shuffled_deck.length - 1){
+                    this.setState({
+                        cards_to_recall: cards_to_recall + 1
+                    })
+                } else if (cards_to_recall === shuffled_deck.length){
+
+                    //end phase 1 stopwatch
+                    this.setState({
+                        phase: 2,
+                        time_phase_1: time_holder + this.stopwatch_end(),
+                        time_holder: 0
+                    })
+                    console.log("phase 1 timer has stopped");
+
+                    //start phase 2 stopwatch
+                    this.stopwatch_start();
+                    console.log("phase 2 timer has started")
+                }
+
+
+            } else if (phase === 2){
+
+                //end phase2 stopwatch
                 this.setState({
-                    phase: 2,
-                    time_phase_1: this.stopwatch_end()
-                })
-                console.log("phase 1 timer has stopped");
-
-                //start phase 2 stopwatch
-                this.stopwatch_start();
-                console.log("phase 2 timer has started")
-            }
-
-
-        } else if (phase === 2){
-
-            //end phase2 stopwatch
-            this.setState({
-                phase: 3,
-                time_phase_2: this.stopwatch_end()
-            })
-            console.log("phase 2 timer has stopped")
-
-            //start phase 3 stopwatch
-            this.stopwatch_start()
-            console.log("phase 3 timer has started")
-
-        } else if (phase === 3 && recall_check === true && cards_to_recall > cards_recalled){
-            this.setState({
-                recall_check: false
-            })
-            //phase 3 stopwatch ends when recall buttons are pressed
-        }
-    }
-
-    skip_phase = () => {
-        const {phase, cards_to_recall, time_stop} = this.state;
-
-        if(phase < 4 && cards_to_recall > 0){
-
-            if(phase === 1){
-                this.setState({
-                    time_phase_1: this.stopwatch_end()
-                })
-                console.log("phase 1 timer has stopped")
-
-                this.stopwatch_start()
-                console.log("phase 2 timer has started")
-            }
-            if(phase === 2){
-                this.setState({
-                    time_phase_2: this.stopwatch_end()
+                    phase: 3,
+                    time_phase_2: time_holder + this.stopwatch_end(),
+                    time_holder: 0
                 })
                 console.log("phase 2 timer has stopped")
 
+                //start phase 3 stopwatch
                 this.stopwatch_start()
                 console.log("phase 3 timer has started")
-            }
-            if(phase === 3){
+
+            } else if (phase === 3 && recall_check === true && cards_to_recall > cards_recalled){
                 this.setState({
-                    time_phase_3: this.stopwatch_end()
+                    recall_check: false
                 })
-                console.log("phase 3 timer has stopped")
+                //phase 3 stopwatch ends when recall buttons are pressed
             }
-
-
-            this.setState({
-                phase: phase + 1
-            })
         }
+
+    }
+
+    skip_phase = () => {
+        const {phase, cards_to_recall, paused, time_holder} = this.state;
+
+        if(!paused){
+            if(phase < 4 && cards_to_recall > 0){
+                if(phase === 1){
+                    this.setState({
+                        time_phase_1: time_holder + this.stopwatch_end(),
+                        time_holder: 0
+                    })
+                    console.log("phase 1 timer has stopped")
+
+                    this.stopwatch_start()
+                    console.log("phase 2 timer has started")
+                }
+                if(phase === 2){
+                    this.setState({
+                        time_phase_2: time_holder + this.stopwatch_end(),
+                        time_holder: 0
+                    })
+                    console.log("phase 2 timer has stopped")
+
+                    this.stopwatch_start()
+                    console.log("phase 3 timer has started")
+                }
+                if(phase === 3){
+                    this.setState({
+                        time_phase_3: time_holder + this.stopwatch_end(),
+                        time_holder: 0
+                    })
+                    console.log("phase 3 timer has stopped")
+                }
+
+                this.setState({
+                    phase: phase + 1
+                })
+            }
+        }
+
+
     }
 
     force_recall_check = (e) => {
-        const {phase, recall_check, incorrect_recalls, cards_recalled, cards_to_recall} = this.state;
+        const {phase, recall_check, incorrect_recalls, cards_recalled, cards_to_recall, paused, time_holder} = this.state;
 
-        if (phase === 3 && recall_check === false){
+        if(!paused){
+            if (phase === 3 && recall_check === false){
 
-            //count incorrect recalls
-            //icons are a bit of a pain in the ass
-            if(e.target.localName === "path" && e.target.parentNode.id === "incorrect-recall"){
+                //count incorrect recalls
+                //icons are a bit of a pain in the ass
+                if(e.target.localName === "path" && e.target.parentNode.id === "incorrect-recall"){
+                    this.setState({
+                        incorrect_recalls: incorrect_recalls + 1
+                    })
+                } else if (e.target.id === "incorrect-recall"){
+                    this.setState({
+                        incorrect_recalls: incorrect_recalls + 1
+                    })
+                }
+
+                //advance with recall phase
                 this.setState({
-                    incorrect_recalls: incorrect_recalls + 1
+                    cards_recalled: cards_recalled + 1,
+                    recall_check: true
                 })
-            } else if (e.target.id === "incorrect-recall"){
-                this.setState({
-                    incorrect_recalls: incorrect_recalls + 1
-                })
-            }
 
-            //advance with recall phase
-            this.setState({
-                cards_recalled: cards_recalled + 1,
-                recall_check: true
-            })
-
-            //end game if cards_recalled === cards_to_recall - 1
-            //the reason why the game seems to be ended prematurely is because 'recall check' buttons
-            //need to end the game. However, if they do so only when cards_recalled === cards_to_recall,
-            //it is not possible the increment cards_recalled and jump to phase 4 at the same time.
-            //And this button needs to do both.
-            //It can do so when phase jump occurs at cards_recalled === cards_to_recall - 1
-            //(P.S This is a dog shit explanation. I need to re-write this
-            if (cards_recalled === cards_to_recall - 1){
-                this.setState({
-                    phase: 4,
-                    time_phase_3: this.stopwatch_end()
-                })
-                console.log("phase 3 timer has stopped")
+                //end game if cards_recalled === cards_to_recall - 1
+                //the reason why the game seems to be ended prematurely is because 'recall check' buttons
+                //need to end the game. However, if they do so only when cards_recalled === cards_to_recall,
+                //it is not possible the increment cards_recalled and jump to phase 4 at the same time.
+                //And this button needs to do both.
+                //It can do so when phase jump occurs at cards_recalled === cards_to_recall - 1
+                //(P.S This is a dog shit explanation. I need to re-write this
+                if (cards_recalled === cards_to_recall - 1){
+                    this.setState({
+                        phase: 4,
+                        time_phase_3: time_holder + this.stopwatch_end()
+                    })
+                    console.log("phase 3 timer has stopped")
+                }
             }
         }
     }
 
-    //this is linked to Pause btn. Will have to be removed. For testing purposes
-    spit_shuffled_deck = () => {
-        console.log(this.state.shuffled_deck)
-        console.log("phase: " + this.state.phase)
-        console.log("cards to recall: " + this.state.cards_to_recall)
-        console.log("cards recalled: " + this.state.cards_recalled)
-    }
+
 
     render() {
         return(
@@ -234,9 +284,11 @@ class Game extends React.Component {
                             cards_to_recall={this.state.cards_to_recall}
                             cards_recalled={this.state.cards_recalled}
                             recall_check={this.state.recall_check}
+                            incorrect_recalls={this.state.incorrect_recalls}
                             time_phase_1={this.state.time_phase_1}
                             time_phase_2={this.state.time_phase_2}
-                            time_phase_3={this.state.time_phase_3}/>
+                            time_phase_3={this.state.time_phase_3}
+                            time_paused={this.state.time_paused}/>
                     </div>
                     <div className={"game-panel-split-small"} >
                         {this.state.phase === 3
@@ -246,7 +298,9 @@ class Game extends React.Component {
                             </div>
                             : null
                         }
-                        <btns.Start_Pause_Resume_Game show_deck={this.spit_shuffled_deck}/>
+                        <btns.Start_Pause_Resume_Game
+                            pause_resume={this.pause_resume}
+                            paused={this.state.paused} />
                         <btns.Menu_btn />
                     </div>
                 </div>

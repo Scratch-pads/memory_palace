@@ -17,7 +17,7 @@ const Skip_or_End = (props) => {
     //phase the player's in
 
     return(
-        <div className="game-phase-btn btn-palace clickable clickablePassive"
+        <div id={"skip-phase"} className="game-phase-btn btn-palace clickable clickablePassive"
              onClick={props.skip_phase}>
             {props.phase === 0 ? <p>Start Game</p> : props.phase < 3 ? <p>Skip phase</p> : <p>End Game</p>}
 
@@ -28,13 +28,8 @@ const Skip_or_End = (props) => {
 }
 
 const Next_Card = (props) => {
-
-    //write timer functions later
-
-
-
     return(
-        <div className="game-phase-btn btn-palace clickable clickablePassive"
+        <div id={"next-card"} className="game-phase-btn btn-palace clickable clickablePassive"
              onClick={props.roll_shuffled_deck}>
             {props.phase === 0 ? <p>Start Game</p> : null}
             {props.phase === 1 && props.cards_to_recall < props.shuffled_deck ? <p>Next Card</p> : null}
@@ -47,8 +42,6 @@ const Next_Card = (props) => {
 }
 
 const Incorrect_Recall = (props) => {
-    //will need functionality to add stuff to stats and all
-
     return(
         <div id={"incorrect-recall"} className={"btn-palace clickable clickablePassive"}
              onClick={props.force_recall_check}>
@@ -72,8 +65,8 @@ const Correct_Recall = (props) => {
 const Start_Pause_Resume_Game = (props) => {
     return(
         <div className="clickable clickablePassive btn-palace"
-             onClick={props.show_deck}>
-            Pause / Resume
+             onClick={props.pause_resume}>
+            {!props.paused ? <p>Pause</p> : <p>Resume</p>}
         </div>
     )
 }
