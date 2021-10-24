@@ -33,8 +33,6 @@ const Cards_Display = (props) => {
         return minutes()+":"+seconds();
     }
 
-
-
     return(
         <div id={"cards_display"}>
             {props.phase === 0 ? <p>Start Game</p> : null}
@@ -128,7 +126,6 @@ const Cards_Display = (props) => {
 }
 
 const To_Recall = (props) => {
-    //this takes the number of cards player chose to recall and displays the number
 
     return(
         <div id={"to_recall"} className={"recall_display clickablePassive"}>
