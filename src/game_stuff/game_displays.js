@@ -113,12 +113,12 @@ const Cards_Display = (props) => {
                     <br/>
                     <div className="score-element">
                         <div className={"score-label"}>
+                            <h3>Pause Time:</h3>
                             <h3>Total Time:</h3>
-                            <h3>Total Pause Time:</h3>
                         </div>
                         <div className={"score-value"}>
-                            <h3>{time_parser(time_total())}</h3>
                             <h3>{time_parser(time_paused)}</h3>
+                            <h3>{time_parser(time_total())}</h3>
                         </div>
                     </div>
                 </div>
