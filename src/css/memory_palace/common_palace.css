@@ -4,7 +4,7 @@
     height: 800px;
     margin: 100px auto 100px auto;
 
-    border: 1px solid skyblue;
+    /*border: 1px solid skyblue;*/
     border-radius: 15px;
 }
 
@@ -47,8 +47,6 @@
 }
 
 .game-panel-split-large{
-    /*border: 1px solid floralwhite;*/
-    /*border-radius: 15px;*/
 }
 .game-panel-split-small{
 }
@@ -70,9 +68,25 @@
 }
 
 #cards_display{
-    text-align: center;
+    /*text-align: center;*/
 }
 
 .paused{
     background-color: #4d4c4c;
+}
+
+#scores_display{
+    /*display: flex;*/
+}
+
+.score-element{
+    display: grid;
+    grid-template-columns: 5fr 2fr;
+    /*border-bottom: 1px solid whitesmoke;*/
+}
+.score-label{
+    /*width: 120%;*/
+}
+.score-value{
+    /*width: 20%;*/
 }

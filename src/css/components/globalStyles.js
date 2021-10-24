@@ -42,8 +42,9 @@ const GlobalStyles = createGlobalStyle`
     background: ${({ theme }) => theme.clickable};
   }
   
-  .paused{
-    background-color: ${({ theme }) => theme.paused}
+  .paused {
+    background-color: ${({theme}) => theme.paused}
+  }
   `
 
 export {GlobalStyles};

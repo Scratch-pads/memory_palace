@@ -64,7 +64,6 @@ class Game extends React.Component {
         time_end = new Date();
         return Math.round(time_end - time_start)/1000;
     }
-
     pause_resume = () => {
         const {phase, paused, time_holder, time_paused, cards_to_recall} = this.state;
 
@@ -109,7 +108,7 @@ class Game extends React.Component {
         console.log("time_holder: " + time_holder)
     }
 
-    //other stuffs
+    //game flow functions
     roll_shuffled_deck = () => {
         const {phase, shuffled_deck, cards_to_recall, cards_recalled,
             recall_check, paused, time_holder} = this.state;
@@ -174,11 +173,15 @@ class Game extends React.Component {
         }
 
     }
-
     skip_phase = () => {
         const {phase, cards_to_recall, paused, time_holder} = this.state;
 
         if(!paused){
+            //start game
+            if(phase === 0){
+                this.setState({phase: 1})
+            }
+            //skip phase
             if(phase < 4 && cards_to_recall > 0){
                 if(phase === 1){
                     this.setState({
@@ -216,7 +219,6 @@ class Game extends React.Component {
 
 
     }
-
     force_recall_check = (e) => {
         const {phase, recall_check, incorrect_recalls, cards_recalled, cards_to_recall, paused, time_holder} = this.state;
 
