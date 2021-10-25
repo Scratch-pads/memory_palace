@@ -1,0 +1,54 @@
+@media all and (min-width: 480px) and (max-width: 576px) {
+
+/*    Navbar*/
+    .nav-btns{
+        width: 90%;
+    }
+
+    .nav-icons-panel{
+
+    }
+
+/*  Home*/
+
+    #home-panel{
+        width: auto;
+        height: 250px;
+        margin: 100px 1rem 0 1rem;
+    }
+
+    /*    Projects*/
+
+    /*    CV*/
+
+    #cv-main{
+        /*position: absolute;*/
+        z-index: 1;
+        visibility: initial;
+    }
+
+    #cv-details{
+        /*position: absolute;*/
+        z-index: 1;
+        visibility: initial;
+    }
+
+    .cv-panel{
+        margin: 1rem;
+        /*width: auto;*/
+    }
+
+    .cv-details-icon-panel{
+        margin: auto;
+        display: flex;
+        align-content: center;
+        align-items: center;
+    }
+
+/*    Contact*/
+
+    .form-control{
+        width: 100%;
+    }
+/*    Footer*/
+}

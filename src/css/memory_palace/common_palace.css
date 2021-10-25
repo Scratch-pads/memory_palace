@@ -1,0 +1,107 @@
+/*Memory_Palace*/
+#container_palace{
+    width: 600px;
+    height: 800px;
+    margin: 100px auto 100px auto;
+
+    /*border: 1px solid skyblue;*/
+    border-radius: 15px;
+}
+
+#main_menu{
+    width: 300px;
+    height: 400px;
+    margin: auto;
+    border-radius: 15px;
+    padding: 2rem;
+}
+
+.btn-palace{
+    border-radius: 10px;
+    width: 80%;
+    /*padding: 10px;*/
+    margin: 0 auto 0 auto;
+    text-align: center;
+}
+
+#game {
+    /*border: 1px solid crimson;*/
+    display: flex;
+    height: 95%;
+    width: 95%;
+    border-radius: 15px;
+    padding: 1rem;
+}
+
+.game-panel{
+    display: grid;
+    grid-template-rows: 70% 30%;
+    /*border: 1px solid floralwhite;*/
+}
+
+.game-side-panel{
+    width: 25%;
+}
+.game-main-panel{
+    width: 50%;
+}
+
+.game-panel-split-large{
+}
+.game-panel-split-small{
+}
+
+/*#btn-return-main-menu{*/
+/*    margin-top: 50px;*/
+/*}*/
+
+.game-phase-btn{
+    display: grid;
+    height: 90%;
+    margin: 10% auto 0 auto;
+    align-items: center;
+}
+
+#game-recall-btns{
+    display: flex;
+    /*justify-content: center;*/
+}
+
+#correct-recall,#incorrect-recall{
+    visibility: hidden;
+}
+
+#cards_display{
+    /*text-align: center;*/
+}
+
+.recall_display{
+    display: grid;
+    width: auto;
+    height: 100%;
+    align-items: center;
+}
+
+#middle-controls{
+    display: grid;
+}
+
+.paused{
+    background-color: #4d4c4c;
+}
+
+#scores_display{
+    /*display: flex;*/
+}
+
+.score-element{
+    display: grid;
+    grid-template-columns: 5fr 2fr;
+    /*border-bottom: 1px solid whitesmoke;*/
+}
+.score-label{
+    /*width: 120%;*/
+}
+.score-value{
+    /*width: 20%;*/
+}

@@ -1,0 +1,43 @@
+@media all and (max-width: 480px) {
+
+/*    Nav Bar*/
+
+
+/*    Home*/
+
+    #home-panel{
+        width: auto;
+        margin: 100px 1rem 0 1rem;
+    }
+
+    /*  Projects*/
+
+    /*  CV*/
+
+    #cv-main{
+        /*position: absolute;*/
+        /*z-index: -1;*/
+        /*visibility: hidden;*/
+    }
+
+    #cv-details{
+        /*position: absolute;*/
+        /*z-index: 1;*/
+        /*visibility: initial;*/
+    }
+
+    .cv-panel{
+        margin: 1rem;
+    }
+
+    .cv-details-icon-panel{
+        margin: auto;
+        display: flex;
+        align-content: center;
+        align-items: center;
+    }
+
+    /*    Contact*/
+
+    /*    Footer*/
+}
