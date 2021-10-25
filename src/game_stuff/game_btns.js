@@ -43,7 +43,8 @@ const Next_Card = (props) => {
 
 const Incorrect_Recall = (props) => {
     return(
-        <div id={"incorrect-recall"} className={"btn-palace clickable clickablePassive"}
+        <div id={"incorrect-recall"}
+             className={"btn-recall btn-palace clickable clickablePassive"}
              onClick={props.force_recall_check}>
             <p id={"incorrect-recall"}>Incorrect Recall</p>
             <FontAwesomeIcon id={"incorrect-recall"} icon={faTimesCircle} size={"3x"}/>
@@ -54,7 +55,7 @@ const Incorrect_Recall = (props) => {
 const Correct_Recall = (props) => {
     return(
         <div id={"correct-recall"}
-             className={"btn-palace clickable clickablePassive"}
+             className={"btn-recall btn-palace clickable clickablePassive"}
              onClick={props.force_recall_check}>
             <p id={"correct-recall"} >Correct Recall</p>
             <FontAwesomeIcon id={"correct-recall"} icon={faCheckCircle} size={"3x"} />

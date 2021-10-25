@@ -128,9 +128,11 @@ const Cards_Display = (props) => {
 const To_Recall = (props) => {
 
     return(
-        <div id={"to_recall"} className={"recall_display clickablePassive"}>
-            <p>Cards to Recall:</p>
-            <p>{props.cards_to_recall}</p>
+        <div id={"to_recall_display"} className={"recall_display btn-palace clickablePassive"}>
+            <div>
+                <p>Cards to Recall:</p>
+                <p>{props.cards_to_recall}</p>
+            </div>
         </div>
     )
 }
@@ -139,9 +141,11 @@ const Recalled = (props) => {
     //counts cards the player has recalled so far (successfully ot nor)
 
     return(
-        <div id={"to_recall"} className={"recall_display clickablePassive"}>
-            <p>Cards Recalled:</p>
-            <p>{props.cards_recalled}</p>
+        <div id={"recalled_display"} className={"recall_display btn-palace clickablePassive"}>
+            <div>
+                <p>Cards Recalled:</p>
+                <p>{props.cards_recalled}</p>
+            </div>
         </div>
     )
 }

@@ -51,9 +51,9 @@
 .game-panel-split-small{
 }
 
-#btn-return-main-menu{
-    margin-top: 50px;
-}
+/*#btn-return-main-menu{*/
+/*    margin-top: 50px;*/
+/*}*/
 
 .game-phase-btn{
     display: grid;
@@ -64,11 +64,29 @@
 
 #game-recall-btns{
     display: flex;
-    justify-content: center;
+    /*justify-content: center;*/
+}
+
+#correct-recall{
+    visibility: visible;
+}
+#incorrect-recall{
+    visibility: visible;
 }
 
 #cards_display{
     /*text-align: center;*/
+}
+
+.recall_display{
+    display: grid;
+    width: auto;
+    height: 100%;
+    align-items: center;
+}
+
+#middle-controls{
+    display: grid;
 }
 
 .paused{

@@ -68,9 +68,6 @@ class Game extends React.Component {
         const {phase, paused, time_holder, time_paused, cards_to_recall} = this.state;
 
         let game_btns = ["skip-phase", "next-card", "incorrect-recall", "correct-recall"];
-        if(phase !== 3){
-            game_btns.splice(2)
-        }
 
         if(cards_to_recall > 0 && phase < 4){
             if(!paused){
@@ -78,7 +75,7 @@ class Game extends React.Component {
                 game_btns.forEach(element => {
                     document.getElementById(element).classList.replace("clickablePassive", "paused")
                     document.getElementById(element).classList.remove("clickable")
-                })
+                });
 
                 //stop phase timer and start pause timer
                 this.setState({
@@ -88,7 +85,7 @@ class Game extends React.Component {
                 this.stopwatch_start()
 
             } else {
-                //visual disable
+                //visual enable
                 game_btns.forEach(element => {
                     document.getElementById(element).classList.replace("paused", "clickablePassive")
                     document.getElementById(element).classList.add("clickable")
@@ -102,7 +99,6 @@ class Game extends React.Component {
                 this.stopwatch_start()
             }
         }
-
 
         console.log("time_paused: " + time_paused)
         console.log("time_holder: " + time_holder)
@@ -151,6 +147,20 @@ class Game extends React.Component {
 
 
             } else if (phase === 2){
+
+                //show recall buttons
+                //make it a separate helper function
+                //it needs to go to both game flow buttons
+                const btn_recalls = ["incorrect-recall", "incorrect-recall", "correct-recall"];
+
+                btn_recalls.forEach(element => {
+                    document.getElementById(element).style.visibility = "visible";
+                    const children = document.getElementById(element).children
+
+                    children.forEach(child => {
+
+                    })
+                })
 
                 //end phase2 stopwatch
                 this.setState({
@@ -292,14 +302,11 @@ class Game extends React.Component {
                             time_phase_3={this.state.time_phase_3}
                             time_paused={this.state.time_paused}/>
                     </div>
-                    <div className={"game-panel-split-small"} >
-                        {this.state.phase === 3
-                            ? <div id="game-recall-btns">
-                                <btns.Incorrect_Recall force_recall_check={this.force_recall_check}/>
-                                <btns.Correct_Recall force_recall_check={this.force_recall_check}/>
-                            </div>
-                            : null
-                        }
+                    <div id={"middle-controls"} className={"game-panel-split-small"} >
+                        <div id="game-recall-btns">
+                            <btns.Incorrect_Recall force_recall_check={this.force_recall_check}/>
+                            <btns.Correct_Recall force_recall_check={this.force_recall_check}/>
+                        </div>
                         <btns.Start_Pause_Resume_Game
                             pause_resume={this.pause_resume}
                             paused={this.state.paused} />
