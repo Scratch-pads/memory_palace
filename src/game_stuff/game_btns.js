@@ -17,7 +17,7 @@ const Skip_or_End = (props) => {
     //phase the player's in
 
     return(
-        <div id={"skip-phase"} className="game-phase-btn btn-palace clickable clickablePassive"
+        <div id={"skip-phase"} className="game-text-center game-phase-btn btn-palace clickable clickablePassive"
              onClick={props.skip_phase}>
             {props.phase === 0 ? <p>Start Game</p> : props.phase < 3 ? <p>Skip phase</p> : <p>End Game</p>}
 
@@ -29,7 +29,7 @@ const Skip_or_End = (props) => {
 
 const Next_Card = (props) => {
     return(
-        <div id={"next-card"} className="game-phase-btn btn-palace clickable clickablePassive"
+        <div id={"next-card"} className="game-text-center game-phase-btn btn-palace clickable clickablePassive"
              onClick={props.roll_shuffled_deck}>
             {props.phase === 0 ? <p>Start Game</p> : null}
             {props.phase === 1 && props.cards_to_recall < props.shuffled_deck ? <p>Next Card</p> : null}
@@ -44,10 +44,10 @@ const Next_Card = (props) => {
 const Incorrect_Recall = (props) => {
     return(
         <div id={"incorrect-recall"}
-             className={"btn-recall btn-palace clickable clickablePassive"}
+             className={"game-text-center btn-recall-hidden btn-palace clickable clickablePassive"}
              onClick={props.force_recall_check}>
-            <p id={"incorrect-recall"}>Incorrect Recall</p>
-            <FontAwesomeIcon id={"incorrect-recall"} icon={faTimesCircle} size={"3x"}/>
+            <p id={"incorrect-recall-text"}>Incorrect Recall</p>
+            <FontAwesomeIcon id={"incorrect-recall-icon"} icon={faTimesCircle} size={"3x"}/>
         </div>
     )
 }
@@ -55,17 +55,17 @@ const Incorrect_Recall = (props) => {
 const Correct_Recall = (props) => {
     return(
         <div id={"correct-recall"}
-             className={"btn-recall btn-palace clickable clickablePassive"}
+             className={"game-text-center btn-recall-hidden btn-palace clickable clickablePassive"}
              onClick={props.force_recall_check}>
-            <p id={"correct-recall"} >Correct Recall</p>
-            <FontAwesomeIcon id={"correct-recall"} icon={faCheckCircle} size={"3x"} />
+            <p id={"correct-recall-text"} >Correct Recall</p>
+            <FontAwesomeIcon id={"correct-recall-icon"} icon={faCheckCircle} size={"3x"} />
         </div>
     )
 }
 
 const Start_Pause_Resume_Game = (props) => {
     return(
-        <div className="clickable clickablePassive btn-palace"
+        <div className="game-text-center clickable clickablePassive btn-palace"
              onClick={props.pause_resume}>
             {!props.paused ? <p>Pause</p> : <p>Resume</p>}
         </div>
@@ -84,9 +84,9 @@ const Menu_btn = () => {
     }
 
     return(
-        <div id={"btn-return-main-menu"} className="clickable clickablePassive btn-palace"
+        <div id={"btn-return-main-menu"} className="game-text-center clickable clickablePassive btn-palace"
              onClick={main_menu}>
-            Main Menu
+            <p>Main Menu</p>
         </div>
     )
 

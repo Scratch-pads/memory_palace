@@ -37,6 +37,7 @@ class Game extends React.Component {
         this.skip_phase = this.skip_phase.bind(this);
         this.force_recall_check = this.force_recall_check.bind(this);
         this.pause_resume = this.pause_resume.bind(this);
+        this.show_recall_btns = this.show_recall_btns.bind(this);
     }
 
     shuffle_deck = (deck) => {
@@ -54,6 +55,12 @@ class Game extends React.Component {
             deck[i] = t;
         }
         return deck;
+    }
+    show_recall_btns = () => {
+        const recall_btns = ["incorrect-recall", "correct-recall"];
+        recall_btns.forEach(elem => {
+            document.getElementById(elem).classList.remove("btn-recall-hidden")
+        });
     }
 
     //stopwatch functions
@@ -148,20 +155,6 @@ class Game extends React.Component {
 
             } else if (phase === 2){
 
-                //show recall buttons
-                //make it a separate helper function
-                //it needs to go to both game flow buttons
-                const btn_recalls = ["incorrect-recall", "incorrect-recall", "correct-recall"];
-
-                btn_recalls.forEach(element => {
-                    document.getElementById(element).style.visibility = "visible";
-                    const children = document.getElementById(element).children
-
-                    children.forEach(child => {
-
-                    })
-                })
-
                 //end phase2 stopwatch
                 this.setState({
                     phase: 3,
@@ -173,6 +166,8 @@ class Game extends React.Component {
                 //start phase 3 stopwatch
                 this.stopwatch_start()
                 console.log("phase 3 timer has started")
+
+                this.show_recall_btns();
 
             } else if (phase === 3 && recall_check === true && cards_to_recall > cards_recalled){
                 this.setState({
@@ -204,6 +199,8 @@ class Game extends React.Component {
                     console.log("phase 2 timer has started")
                 }
                 if(phase === 2){
+
+
                     this.setState({
                         time_phase_2: time_holder + this.stopwatch_end(),
                         time_holder: 0
@@ -212,6 +209,8 @@ class Game extends React.Component {
 
                     this.stopwatch_start()
                     console.log("phase 3 timer has started")
+
+                    this.show_recall_btns();
                 }
                 if(phase === 3){
                     this.setState({
@@ -229,6 +228,8 @@ class Game extends React.Component {
 
 
     }
+
+
     force_recall_check = (e) => {
         const {phase, recall_check, incorrect_recalls, cards_recalled, cards_to_recall, paused, time_holder} = this.state;
 
@@ -237,15 +238,20 @@ class Game extends React.Component {
 
                 //count incorrect recalls
                 //icons are a bit of a pain in the ass
-                if(e.target.localName === "path" && e.target.parentNode.id === "incorrect-recall"){
-                    this.setState({
-                        incorrect_recalls: incorrect_recalls + 1
-                    })
-                } else if (e.target.id === "incorrect-recall"){
+                // if(e.target.localName === "path" && e.target.parentElement.id === "incorrect-recall-icon"){
+                //     this.setState({
+                //         incorrect_recalls: incorrect_recalls + 1
+                //     })
+                // } else
+                    if (e.target.id === "incorrect-recall"
+                        || e.target.id === "incorrect-recall-text"
+                        || e.target.parentElement.id === "incorrect-recall-icon"
+                        || e.target.id === "incorrect-recall-icon"){
                     this.setState({
                         incorrect_recalls: incorrect_recalls + 1
                     })
                 }
+                console.log(e.target.id)
 
                 //advance with recall phase
                 this.setState({

@@ -21,7 +21,6 @@
     width: 80%;
     /*padding: 10px;*/
     margin: 0 auto 0 auto;
-    text-align: center;
 }
 
 #game {
@@ -31,6 +30,11 @@
     width: 95%;
     border-radius: 15px;
     padding: 1rem;
+}
+
+.game-text-center{
+    text-align: center;
+    align-items: center;
 }
 
 .game-panel{
@@ -46,20 +50,10 @@
     width: 50%;
 }
 
-.game-panel-split-large{
-}
-.game-panel-split-small{
-}
-
-/*#btn-return-main-menu{*/
-/*    margin-top: 50px;*/
-/*}*/
-
 .game-phase-btn{
     display: grid;
     height: 90%;
     margin: 10% auto 0 auto;
-    align-items: center;
 }
 
 #game-recall-btns{
@@ -67,11 +61,8 @@
     /*justify-content: center;*/
 }
 
-#correct-recall{
-    visibility: visible;
-}
-#incorrect-recall{
-    visibility: visible;
+.btn-recall-hidden{
+    visibility: hidden;
 }
 
 #cards_display{
@@ -82,7 +73,13 @@
     display: grid;
     width: auto;
     height: 100%;
-    align-items: center;
+}
+
+#incorrect-recall{
+    margin: 0 0.5rem 1rem 1rem;
+}
+#correct-recall{
+    margin: 0 1rem 1rem 0.5rem ;
 }
 
 #middle-controls{
