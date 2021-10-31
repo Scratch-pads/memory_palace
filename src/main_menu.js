@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom"
 
-
 //game sections
 import Game from "./game";
 
@@ -10,7 +9,8 @@ const Main_Menu = () => {
     const onClickRenderGame = () => {
         ReactDOM.render(
             <Game />,
-            document.getElementById("container_palace"))
+            document.getElementById("container_palace")
+        )
     }
 
     const onClickRenderTutorial = () => {

@@ -1,7 +1,38 @@
-import React from "react";
+import React, {useState, useEffect, useRef} from "react";
+
+const Canvas = (props) => {
+
+    const [image, setImage] = useState(null)
+
+    const canvas_ref = useRef(null)
+
+    useEffect(()=>{
+        const deck = new Image();
+        deck.src = "https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX8253567.jpg";
+        deck.onload = () => setImage(deck)
+    }, []);
+
+    useEffect(() => {
+        if(image && canvas_ref){
+            const ctx = canvas_ref.current.getContext("2d");
+            ctx.fillStyle = "white";
+            ctx.fillRect(0,0,285,400);
+            ctx.drawImage(image,
+                0,0,285,400,
+                0,0,285,400)
+        }
+    }, [image, canvas_ref])
+
+    return(
+        <canvas id={"canvas"} ref={canvas_ref}
+        width={285} height={400}/>
+    )
+}
+
 
 const Cards_Display = (props) => {
 
+    // const shuffled_deck = props.shuffled_deck;
     const time_phase_1 = Math.round((props.time_phase_1 + Number.EPSILON));
     const cards_memorized = props.cards_to_recall;
     const time_phase_2 = Math.round((props.time_phase_2 + Number.EPSILON));
@@ -10,12 +41,8 @@ const Cards_Display = (props) => {
     const incorrect_recalls = props.incorrect_recalls;
     const recall_rate = Math.round((props.cards_recalled - props.incorrect_recalls)/props.cards_to_recall * 100);
     const time_paused = Math.round((props.time_paused + Number.EPSILON));
-
-    const time_total = () => {
-        return Math.round((props.time_phase_1 + Number.EPSILON)) + Math.round((props.time_phase_2 + Number.EPSILON)) +
-            Math.round((props.time_phase_3 + Number.EPSILON)) + Math.round((props.time_paused + Number.EPSILON))
-
-    };
+    const time_total = Math.round((props.time_phase_1 + Number.EPSILON)) + Math.round((props.time_phase_2 + Number.EPSILON)) +
+            Math.round((props.time_phase_3 + Number.EPSILON)) + Math.round((props.time_paused + Number.EPSILON));
 
 
     const time_parser = (time) => {
@@ -49,10 +76,14 @@ const Cards_Display = (props) => {
                 </div>
                 : null}
             {props.phase === 3
-                ? <h2>Recall Phase</h2>
+                ? <div>
+                    <h2>Recall Phase</h2>
+                </div>
                 : null}
             {props.phase === 3 && props.recall_check === false
-                ? props.shuffled_deck[props.cards_recalled]
+                ? <div>
+                    {props.shuffled_deck[props.cards_recalled][0]}, {props.shuffled_deck[props.cards_recalled][1]}
+                    </div>
                 : null}
             {props.phase === 3 && props.recall_check === true && props.cards_recalled !== props.cards_to_recall
                 ? <p>What's the next card?</p>
@@ -116,11 +147,12 @@ const Cards_Display = (props) => {
                         </div>
                         <div className={"score-value"}>
                             <h3>{time_parser(time_paused)}</h3>
-                            <h3>{time_parser(time_total())}</h3>
+                            <h3>{time_parser(time_total)}</h3>
                         </div>
                     </div>
                 </div>
                 : null}
+            <Canvas/>
         </div>
     )
 }
@@ -136,7 +168,6 @@ const To_Recall = (props) => {
         </div>
     )
 }
-
 const Recalled = (props) => {
     //counts cards the player has recalled so far (successfully ot nor)
 

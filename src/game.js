@@ -3,13 +3,6 @@ import React from "react";
 import * as btns from "./game_stuff/game_btns"
 import * as displays from "./game_stuff/game_displays"
 
-const sorted_deck = [
-    "A H", "2 H", "3 H", "4 H", "5 H", "6 H", "7 H", "8 H", "9 H", "10 H", "J H", "Q H", "K H",
-    "A D", "2 D", "3 D", "4 D", "5 D", "6 D", "7 D", "8 D", "9 D", "10 D", "J D", "Q D", "K D",
-    "A C", "2 C", "3 C", "4 C", "5 C", "6 C", "7 C", "8 C", "9 C", "10 C", "J C", "Q C", "K C",
-    "A S", "2 S", "3 S", "4 S", "5 S", "6 S", "7 S", "8 S", "9 S", "10 S", "J S", "Q S", "K S",
-]
-
 let time_start, time_end;
 
 class Game extends React.Component {
@@ -18,7 +11,7 @@ class Game extends React.Component {
         this.state = {
             game_active: false,
             phase: 0,
-            shuffled_deck: this.shuffle_deck(sorted_deck),
+            shuffled_deck: this.shuffle_deck(this.loc_deck_create()),
             cards_to_recall: 0,
             cards_recalled: 0,
             recall_check: true,
@@ -32,6 +25,7 @@ class Game extends React.Component {
             paused: false
         }
 
+        this.loc_deck_create = this.loc_deck_create.bind(this);
         this.shuffle_deck = this.shuffle_deck.bind(this);
         this.roll_shuffled_deck = this.roll_shuffled_deck.bind(this);
         this.skip_phase = this.skip_phase.bind(this);
@@ -39,7 +33,16 @@ class Game extends React.Component {
         this.pause_resume = this.pause_resume.bind(this);
         this.show_recall_btns = this.show_recall_btns.bind(this);
     }
-
+    loc_deck_create = () => {
+        const loc_deck = [];
+        for(let i=1;i<=4;i++){
+            for(let j=1;j<=13;j++){
+                const loc = [i,j];
+                loc_deck.push(loc)
+            }
+        }
+        return loc_deck;
+    }
     shuffle_deck = (deck) => {
         let m = deck.length, t, i;
 
@@ -56,6 +59,8 @@ class Game extends React.Component {
         }
         return deck;
     }
+
+
     show_recall_btns = () => {
         const recall_btns = ["incorrect-recall", "correct-recall"];
         recall_btns.forEach(elem => {
@@ -225,8 +230,6 @@ class Game extends React.Component {
                 })
             }
         }
-
-
     }
 
 
@@ -238,15 +241,10 @@ class Game extends React.Component {
 
                 //count incorrect recalls
                 //icons are a bit of a pain in the ass
-                // if(e.target.localName === "path" && e.target.parentElement.id === "incorrect-recall-icon"){
-                //     this.setState({
-                //         incorrect_recalls: incorrect_recalls + 1
-                //     })
-                // } else
-                    if (e.target.id === "incorrect-recall"
-                        || e.target.id === "incorrect-recall-text"
-                        || e.target.parentElement.id === "incorrect-recall-icon"
-                        || e.target.id === "incorrect-recall-icon"){
+                if (e.target.id === "incorrect-recall"
+                    || e.target.id === "incorrect-recall-text"
+                    || e.target.parentElement.id === "incorrect-recall-icon"
+                    || e.target.id === "incorrect-recall-icon"){
                     this.setState({
                         incorrect_recalls: incorrect_recalls + 1
                     })

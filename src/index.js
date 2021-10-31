@@ -10,6 +10,8 @@ import {ThemeProvider} from "styled-components";
 import { GlobalStyles } from "./css/components/globalStyles.js";
 import { lightTheme, darkTheme } from "./css/components/Themes";
 
+
+
 const Main_Palace = () => {
 
     const [theme,
@@ -35,7 +37,6 @@ const Main_Palace = () => {
         <div id="container_palace">
             <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
                 <GlobalStyles />
-
             </ThemeProvider>
         </div>
     )
