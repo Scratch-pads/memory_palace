@@ -86,7 +86,7 @@ const Menu_btn = () => {
     return(
         <div id={"btn-return-main-menu"} className="game-text-center clickable clickablePassive btn-palace"
              onClick={main_menu}>
-            <p>Main Menu</p>
+            <h3>Main Menu</h3>
         </div>
     )
 

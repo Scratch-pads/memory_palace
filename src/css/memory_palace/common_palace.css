@@ -104,9 +104,16 @@
 
 /*Tutorial Section*/
 #tutorial{
-    /*display: flex;*/
+    display: grid;
+    grid-template-rows: 10% 60% 20% 10%;
     height: 95%;
     width: 95%;
     border-radius: 15px;
     padding: 1rem;
+    text-align: center;
+}
+
+#tutorial-btns{
+    display: flex;
+    margin: 1rem;
 }
