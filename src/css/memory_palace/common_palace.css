@@ -16,6 +16,7 @@
     padding: 2rem;
 }
 
+/*Game Section*/
 .btn-palace{
     border-radius: 10px;
     width: 80%;
@@ -90,24 +91,22 @@
     background-color: #4d4c4c;
 }
 
-#scores_display{
-    /*display: flex;*/
-}
-
 .score-element{
     display: grid;
     grid-template-columns: 5fr 2fr;
-    /*border-bottom: 1px solid whitesmoke;*/
-}
-.score-label{
-    /*width: 120%;*/
-}
-.score-value{
-    /*width: 20%;*/
 }
 
 #canvas{
     width: 100%;
     height: 400px;
     z-index: 10;
+}
+
+/*Tutorial Section*/
+#tutorial{
+    /*display: flex;*/
+    height: 95%;
+    width: 95%;
+    border-radius: 15px;
+    padding: 1rem;
 }

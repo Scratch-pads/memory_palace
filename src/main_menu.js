@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom"
 
 //game sections
-import Game from "./game";
+import {Game} from "./game";
+import Tutorial from "./tutorial";
 
 const Main_Menu = () => {
 
@@ -14,7 +15,10 @@ const Main_Menu = () => {
     }
 
     const onClickRenderTutorial = () => {
-
+        ReactDOM.render(
+            <Tutorial />,
+            document.getElementById("container_palace")
+        )
     }
 
     const onClickRenderScores = () => {

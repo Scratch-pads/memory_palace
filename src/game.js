@@ -4,6 +4,32 @@ import * as btns from "./game_stuff/game_btns"
 import * as displays from "./game_stuff/game_displays"
 
 let time_start, time_end;
+const loc_deck_create = () => {
+    const loc_deck = [];
+    for(let i=1;i<=4;i++){
+        for(let j=1;j<=13;j++){
+            const loc = [i,j];
+            loc_deck.push(loc)
+        }
+    }
+    return loc_deck;
+}
+const shuffle_deck = (deck) => {
+    let m = deck.length, t, i;
+
+    //while there are elements to shuffle left:
+    while(m){
+        //pick remaining element
+        i = Math.floor(Math.random() * m);
+        m--;
+
+        //and swap it with the current element
+        t = deck[m];
+        deck[m] = deck[i];
+        deck[i] = t;
+    }
+    return deck;
+}
 
 class Game extends React.Component {
     constructor(props) {
@@ -11,7 +37,7 @@ class Game extends React.Component {
         this.state = {
             game_active: false,
             phase: 0,
-            shuffled_deck: this.shuffle_deck(this.loc_deck_create()),
+            shuffled_deck: shuffle_deck(loc_deck_create()),
             cards_to_recall: 0,
             cards_recalled: 0,
             recall_check: true,
@@ -25,39 +51,11 @@ class Game extends React.Component {
             paused: false
         }
 
-        this.loc_deck_create = this.loc_deck_create.bind(this);
-        this.shuffle_deck = this.shuffle_deck.bind(this);
         this.roll_shuffled_deck = this.roll_shuffled_deck.bind(this);
         this.skip_phase = this.skip_phase.bind(this);
         this.force_recall_check = this.force_recall_check.bind(this);
         this.pause_resume = this.pause_resume.bind(this);
         this.show_recall_btns = this.show_recall_btns.bind(this);
-    }
-    loc_deck_create = () => {
-        const loc_deck = [];
-        for(let i=1;i<=4;i++){
-            for(let j=1;j<=13;j++){
-                const loc = [i,j];
-                loc_deck.push(loc)
-            }
-        }
-        return loc_deck;
-    }
-    shuffle_deck = (deck) => {
-        let m = deck.length, t, i;
-
-        //while there are elements to shuffle left:
-        while(m){
-            //pick remaining element
-            i = Math.floor(Math.random() * m);
-            m--;
-
-            //and swap it with the current element
-            t = deck[m];
-            deck[m] = deck[i];
-            deck[i] = t;
-        }
-        return deck;
     }
 
 
@@ -339,4 +337,4 @@ class Game extends React.Component {
 
 
 
-export default Game;
+export {Game, loc_deck_create, shuffle_deck};
