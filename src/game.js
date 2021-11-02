@@ -14,6 +14,29 @@ const loc_deck_create = () => {
     }
     return loc_deck;
 }
+const temp_deck_create = () => {
+    const temp_deck = [];
+    const suite = ["C", "D", "H", "S"];
+    const non_numerical_vals = ["A", "J", "Q", "K"];
+
+    for(let suite_pointer=0;suite_pointer<=3;suite_pointer++){
+        let non_num_val_pointer = 0
+        let card = [];
+        for(let numerical_val=1;numerical_val<=13;numerical_val++){
+            if(numerical_val===1){
+                card = [ non_numerical_vals[non_num_val_pointer], suite[suite_pointer] ];
+                non_num_val_pointer++;
+            } else if(numerical_val >= 2 && numerical_val < 11){
+                card = [ numerical_val, suite[suite_pointer]]
+            } else {
+                card = [ non_numerical_vals[non_num_val_pointer], suite[suite_pointer] ];
+                non_num_val_pointer++;
+            }
+            temp_deck.push(card);
+        }
+    }
+    return temp_deck
+}
 const shuffle_deck = (deck) => {
     let m = deck.length, t, i;
 
@@ -37,7 +60,7 @@ class Game extends React.Component {
         this.state = {
             game_active: false,
             phase: 0,
-            shuffled_deck: shuffle_deck(loc_deck_create()),
+            shuffled_deck: shuffle_deck(temp_deck_create()),
             cards_to_recall: 0,
             cards_recalled: 0,
             recall_check: true,
@@ -76,6 +99,8 @@ class Game extends React.Component {
     }
     pause_resume = () => {
         const {phase, paused, time_holder, time_paused, cards_to_recall} = this.state;
+
+        console.log(temp_deck_create());
 
         let game_btns = ["skip-phase", "next-card", "incorrect-recall", "correct-recall"];
 
@@ -337,4 +362,4 @@ class Game extends React.Component {
 
 
 
-export {Game, loc_deck_create, shuffle_deck};
+export {Game, loc_deck_create, temp_deck_create, shuffle_deck};

@@ -152,7 +152,7 @@ const Cards_Display = (props) => {
                     </div>
                 </div>
                 : null}
-            <Canvas/>
+            {/*<Canvas/>*/}
         </div>
     )
 }
