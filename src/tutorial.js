@@ -12,7 +12,7 @@ class Tutorial extends React.Component{
             phase: 1,
             shuffled_deck: shuffle_deck(temp_deck_create()),
             cards_recalled: 0,
-            cards_to_recall: 0,
+            cards_to_recall: 1,
             recall_check: true
         }
         this.roll_next_panel = this.roll_next_panel.bind(this);
@@ -41,6 +41,7 @@ class Tutorial extends React.Component{
             this.setState({
                 recall_check: true
             })
+            console.log(this.state)
         }
     }
 
@@ -75,8 +76,9 @@ class Tutorial extends React.Component{
         if(tutorial_panel === 6 || tutorial_panel === 7){
             this.setState({
                 phase: 1,
-                cards_to_recall: 0,
-                cards_recalled: 0
+                cards_to_recall: 1,
+                cards_recalled: 0,
+                recall_check: true
             })
         }
     }
@@ -84,7 +86,6 @@ class Tutorial extends React.Component{
     render(){
         return(
             <div id={"tutorial"} className={"panel-background"}>
-                <p>welcome to the tutorial, bitches!</p>
                 <Tutorial_display
                     panel={this.state.tutorial_panel}
                     phase={this.state.phase}

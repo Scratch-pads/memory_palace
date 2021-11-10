@@ -105,7 +105,7 @@
 /*Tutorial Section*/
 #tutorial{
     display: grid;
-    grid-template-rows: 5% 65% 20% 10%;
+    grid-template-rows: 65% 20% 10%;
     height: 95%;
     width: 95%;
     border-radius: 15px;
