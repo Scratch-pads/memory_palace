@@ -2,6 +2,8 @@ import React from "react";
 
 import * as btns from "./game_stuff/game_btns"
 import * as displays from "./game_stuff/game_displays"
+import * as scores from "./game_stuff/game_scores"
+import {sendScores} from "./game_stuff/game_scores";
 
 let time_start, time_end;
 const loc_deck_create = () => {
@@ -54,11 +56,25 @@ const shuffle_deck = (deck) => {
     return deck;
 }
 
+const time_parser = (time) => {
+    const raw_minutes = Math.floor(time / 60);
+    const raw_seconds = Math.round(time % 60)
+
+    const minutes = () => {
+        return raw_minutes < 10 ? "0"+raw_minutes : raw_minutes;
+    };
+
+    const seconds = () => {
+        return raw_seconds < 10 ? "0"+raw_seconds : raw_seconds;
+    };
+
+    return minutes()+":"+seconds();
+}
+
 class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            game_active: false,
             phase: 0,
             shuffled_deck: shuffle_deck(temp_deck_create()),
             cards_to_recall: 0,
@@ -71,9 +87,11 @@ class Game extends React.Component {
             time_phase_2: 0,
             time_phase_3: 0,
             time_phase_total: 0,
-            paused: false
+            paused: false,
+            username: ""
         }
 
+        this.onUsernameChange = this.onUsernameChange.bind(this);
         this.roll_shuffled_deck = this.roll_shuffled_deck.bind(this);
         this.skip_phase = this.skip_phase.bind(this);
         this.force_recall_check = this.force_recall_check.bind(this);
@@ -87,6 +105,12 @@ class Game extends React.Component {
         recall_btns.forEach(elem => {
             document.getElementById(elem).classList.remove("btn-recall-hidden")
         });
+    }
+
+    onUsernameChange = (e) => {
+        this.setState({
+            username: e.target.value
+        })
     }
 
     //stopwatch functions
@@ -142,7 +166,7 @@ class Game extends React.Component {
     //game flow functions
     roll_shuffled_deck = () => {
         const {phase, shuffled_deck, cards_to_recall, cards_recalled,
-            recall_check, paused, time_holder} = this.state;
+            recall_check, paused, time_holder, username, time_paused} = this.state;
 
         if(!paused){
 
@@ -152,7 +176,7 @@ class Game extends React.Component {
                     phase: 1
                 })
 
-            }else if(phase === 1){
+            } else if (phase === 1){
 
                 //start phase 1 stopwatch
                 if(cards_to_recall === 0){
@@ -202,7 +226,23 @@ class Game extends React.Component {
                     recall_check: false
                 })
                 //phase 3 stopwatch ends when recall buttons are pressed
+            } else if (phase === 4){
+                this.setState({
+                    phase: 5
+                })
+            } else if (phase === 5){
+                console.log(username.length)
+                if(time_paused > 0){
+                    alert("Game was paused at some point. We don't know if you were cheating or not, therefore, you cannot submit your scores")
+                } else if (username.length < 6) {
+                    alert("Username need to be at least 6 characters long")
+                } else {
+                    sendScores(this.state)
+                }
+
+
             }
+
         }
 
     }
@@ -254,8 +294,6 @@ class Game extends React.Component {
             }
         }
     }
-
-
     force_recall_check = (e) => {
         const {phase, recall_check, incorrect_recalls, cards_recalled, cards_to_recall, paused, time_holder} = this.state;
 
@@ -327,7 +365,10 @@ class Game extends React.Component {
                             time_phase_1={this.state.time_phase_1}
                             time_phase_2={this.state.time_phase_2}
                             time_phase_3={this.state.time_phase_3}
-                            time_paused={this.state.time_paused}/>
+                            time_paused={this.state.time_paused}
+                            username_input={this.onUsernameChange}
+                            username={this.state.username}
+                        />
                     </div>
                     <div id={"middle-controls"} className={"game-panel-split-small"} >
                         <div id="game-recall-btns">
@@ -362,4 +403,4 @@ class Game extends React.Component {
 
 
 
-export {Game, loc_deck_create, temp_deck_create, shuffle_deck};
+export {Game, loc_deck_create, temp_deck_create, shuffle_deck, time_parser};

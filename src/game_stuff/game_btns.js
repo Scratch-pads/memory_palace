@@ -19,7 +19,10 @@ const Skip_or_End = (props) => {
     return(
         <div id={"skip-phase"} className="game-text-center game-phase-btn btn-palace clickable clickablePassive"
              onClick={props.skip_phase}>
-            {props.phase === 0 ? <p>Start Game</p> : props.phase < 3 ? <p>Skip phase</p> : <p>End Game</p>}
+            {props.phase === 0 ? <p>Start Game</p>
+                : props.phase === 1 ? <p>Skip phase</p>
+                    : props.phase === 2 ? <p>Next phase</p>
+                        : <p>End Game</p> }
 
 
             {/*<p>End Game</p>*/}
@@ -36,7 +39,8 @@ const Next_Card = (props) => {
             {props.phase === 1 && props.cards_to_recall === props.shuffled_deck ? <p>Next Phase</p> : null}
             {props.phase === 2 ? <p>Next Phase</p> : null}
             {props.phase === 3 && props.cards_recalled <= props.cards_to_recall ? <p>Next Card</p> : null}
-            {props.phase === 4 ? <p>End Game</p> : null}
+            {props.phase === 4 ? <p>Submit Scores</p> : null}
+            {props.phase === 5 ? <div> <p>Confirm</p> <p>&</p> <p>Submit</p> </div> : null}
         </div>
     )
 }

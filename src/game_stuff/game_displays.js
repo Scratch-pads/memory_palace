@@ -1,4 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
+import {time_parser} from "../game";
+
 
 const Canvas = (props) => {
 
@@ -45,20 +47,7 @@ const Cards_Display = (props) => {
             Math.round((props.time_phase_3 + Number.EPSILON)) + Math.round((props.time_paused + Number.EPSILON));
 
 
-    const time_parser = (time) => {
-        const raw_minutes = Math.floor(time / 60);
-        const raw_seconds = Math.round(time % 60)
 
-        const minutes = () => {
-            return raw_minutes < 10 ? "0"+raw_minutes : raw_minutes;
-        };
-
-        const seconds = () => {
-            return raw_seconds < 10 ? "0"+raw_seconds : raw_seconds;
-        };
-
-        return minutes()+":"+seconds();
-    }
 
     return(
         <div id={"cards_display"}>
@@ -83,7 +72,7 @@ const Cards_Display = (props) => {
             {props.phase === 3 && props.recall_check === false
                 ? <div>
                     {props.shuffled_deck[props.cards_recalled][0]}, {props.shuffled_deck[props.cards_recalled][1]}
-                    </div>
+                </div>
                 : null}
             {props.phase === 3 && props.recall_check === true && props.cards_recalled !== props.cards_to_recall
                 ? <p>What's the next card?</p>
@@ -152,7 +141,26 @@ const Cards_Display = (props) => {
                     </div>
                 </div>
                 : null}
+            {props.phase === 5
+                ? <Enter_Username
+                    username_input={props.username_input}
+                    username={props.username}/>
+                : null}
             {/*<Canvas/>*/}
+        </div>
+    )
+}
+
+const Enter_Username = (props) => {
+    return (
+        <div >
+            <h2>Enter Username:</h2>
+            <input className={"form-control"}
+                name={"username"}
+                id={"username-input"}
+                placeholder={"username"}
+                onChange={props.username_input}
+                value={props.username} />
         </div>
     )
 }
@@ -169,7 +177,6 @@ const To_Recall = (props) => {
     )
 }
 const Recalled = (props) => {
-    //counts cards the player has recalled so far (successfully ot nor)
 
     return(
         <div id={"recalled_display"} className={"game-text-center recall_display btn-palace clickablePassive"}>
