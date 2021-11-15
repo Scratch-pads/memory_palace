@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useRef} from "react";
-import {time_parser} from "../game";
 
 
 const Canvas = (props) => {
@@ -35,16 +34,16 @@ const Canvas = (props) => {
 const Cards_Display = (props) => {
 
     // const shuffled_deck = props.shuffled_deck;
-    const time_phase_1 = Math.round((props.time_phase_1 + Number.EPSILON));
-    const cards_memorized = props.cards_to_recall;
-    const time_phase_2 = Math.round((props.time_phase_2 + Number.EPSILON));
-    const time_phase_3 = Math.round((props.time_phase_3 + Number.EPSILON));
-    const cards_recalled = props.cards_recalled;
-    const incorrect_recalls = props.incorrect_recalls;
-    const recall_rate = Math.round((props.cards_recalled - props.incorrect_recalls)/props.cards_to_recall * 100);
-    const time_paused = Math.round((props.time_paused + Number.EPSILON));
-    const time_total = Math.round((props.time_phase_1 + Number.EPSILON)) + Math.round((props.time_phase_2 + Number.EPSILON)) +
-            Math.round((props.time_phase_3 + Number.EPSILON)) + Math.round((props.time_paused + Number.EPSILON));
+    // const time_phase_1 = Math.round(props.time_phase_1 + Number.EPSILON);
+    // const cards_memorized = props.cards_to_recall;
+    // const time_phase_2 = Math.round((props.time_phase_2 + Number.EPSILON));
+    // const time_phase_3 = Math.round((props.time_phase_3 + Number.EPSILON));
+    // const cards_recalled = props.cards_recalled;
+    // const incorrect_recalls = props.incorrect_recalls;
+    // const recall_rate = Math.round((props.cards_recalled - props.incorrect_recalls)/props.cards_to_recall * 100);
+    // const time_paused = Math.round((props.time_paused + Number.EPSILON));
+    // const time_total = Math.round((props.time_phase_1 + Number.EPSILON)) + Math.round((props.time_phase_2 + Number.EPSILON)) +
+    //         Math.round((props.time_phase_3 + Number.EPSILON)) + Math.round((props.time_paused + Number.EPSILON));
 
 
 
@@ -92,8 +91,8 @@ const Cards_Display = (props) => {
                             <p>Cards Memorized:</p>
                         </div>
                         <div className={"score-value"}>
-                            <p>{time_parser(time_phase_1)}</p>
-                            <p>{cards_memorized}</p>
+                            <p>{props.time_phase_1}</p>
+                            <p>{props.cards_to_recall}</p>
                         </div>
                     </div>
                     <div className="score-element">
@@ -106,7 +105,7 @@ const Cards_Display = (props) => {
                             <p>Time Elapsed</p>
                         </div>
                         <div className={"score-value"}>
-                            <p>{time_parser(time_phase_2)}</p>
+                            <p>{props.time_phase_2}</p>
                         </div>
                     </div>
                     <div className="score-element">
@@ -122,10 +121,10 @@ const Cards_Display = (props) => {
                             <p>Recall Rate:</p>
                         </div>
                         <div className={"score-value"}>
-                            <p>{time_parser(time_phase_3)}</p>
-                            <p>{cards_recalled}</p>
-                            <p>{incorrect_recalls}</p>
-                            <p>{recall_rate} %</p>
+                            <p>{props.time_phase_3}</p>
+                            <p>{props.cards_recalled}</p>
+                            <p>{props.incorrect_recalls}</p>
+                            <p>{props.recall_rate} %</p>
                         </div>
                     </div>
                     <br/>
@@ -135,8 +134,8 @@ const Cards_Display = (props) => {
                             <h3>Total Time:</h3>
                         </div>
                         <div className={"score-value"}>
-                            <h3>{time_parser(time_paused)}</h3>
-                            <h3>{time_parser(time_total)}</h3>
+                            <h3>{props.time_paused}</h3>
+                            <h3>{props.time_total}</h3>
                         </div>
                     </div>
                 </div>

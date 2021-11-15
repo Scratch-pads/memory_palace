@@ -34,6 +34,7 @@ const sendScores = (state) => {
         })
         .catch(err => {
             console.log(err)
+            alert("Something went wrong.\n"+err)
         })
 }
 

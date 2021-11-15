@@ -2,7 +2,7 @@ import React from "react";
 
 import * as btns from "./game_stuff/game_btns"
 import * as displays from "./game_stuff/game_displays"
-import * as scores from "./game_stuff/game_scores"
+// import * as scores from "./game_stuff/game_scores"
 import {sendScores} from "./game_stuff/game_scores";
 
 let time_start, time_end;
@@ -25,10 +25,11 @@ const temp_deck_create = () => {
         let non_num_val_pointer = 0
         let card = [];
         for(let numerical_val=1;numerical_val<=13;numerical_val++){
-            if(numerical_val===1){
-                card = [ non_numerical_vals[non_num_val_pointer], suite[suite_pointer] ];
-                non_num_val_pointer++;
-            } else if(numerical_val >= 2 && numerical_val < 11){
+            // if(numerical_val===1){
+            //     card = [ non_numerical_vals[non_num_val_pointer], suite[suite_pointer] ];
+            //     non_num_val_pointer++;
+            // } else
+            if(numerical_val >= 2 && numerical_val < 11){
                 card = [ numerical_val, suite[suite_pointer]]
             } else {
                 card = [ non_numerical_vals[non_num_val_pointer], suite[suite_pointer] ];
@@ -56,21 +57,6 @@ const shuffle_deck = (deck) => {
     return deck;
 }
 
-const time_parser = (time) => {
-    const raw_minutes = Math.floor(time / 60);
-    const raw_seconds = Math.round(time % 60)
-
-    const minutes = () => {
-        return raw_minutes < 10 ? "0"+raw_minutes : raw_minutes;
-    };
-
-    const seconds = () => {
-        return raw_seconds < 10 ? "0"+raw_seconds : raw_seconds;
-    };
-
-    return minutes()+":"+seconds();
-}
-
 class Game extends React.Component {
     constructor(props) {
         super(props);
@@ -79,14 +65,15 @@ class Game extends React.Component {
             shuffled_deck: shuffle_deck(temp_deck_create()),
             cards_to_recall: 0,
             cards_recalled: 0,
-            recall_check: true,
             incorrect_recalls: 0,
+            recall_rate: null,
+            recall_check: true,
             time_holder: 0,
             time_paused: 0,
             time_phase_1: 0,
             time_phase_2: 0,
             time_phase_3: 0,
-            time_phase_total: 0,
+            time_total: 0,
             paused: false,
             username: ""
         }
@@ -96,7 +83,9 @@ class Game extends React.Component {
         this.skip_phase = this.skip_phase.bind(this);
         this.force_recall_check = this.force_recall_check.bind(this);
         this.pause_resume = this.pause_resume.bind(this);
+        this.round_timers = this.round_timers.bind(this);
         this.show_recall_btns = this.show_recall_btns.bind(this);
+        this.calculate_recall_rate = this.calculate_recall_rate.bind(this);
     }
 
 
@@ -113,7 +102,15 @@ class Game extends React.Component {
         })
     }
 
-    //stopwatch functions
+    calculate_recall_rate = () => {
+        const {cards_recalled, incorrect_recalls, cards_to_recall} = this.state;
+
+        this.setState({
+            recall_rate: Math.round((cards_recalled - incorrect_recalls)/cards_to_recall * 100)
+        })
+    }
+
+    //time functions
     stopwatch_start = () => {
         time_start = new Date();
     }
@@ -161,6 +158,33 @@ class Game extends React.Component {
 
         console.log("time_paused: " + time_paused)
         console.log("time_holder: " + time_holder)
+    }
+    round_timers = () => {
+        const {time_paused, time_phase_1, time_phase_2, time_phase_3} = this.state;
+
+        const time_parser = (time) => {
+            const raw_minutes = Math.floor(time / 60);
+            const raw_seconds = Math.round(time % 60)
+
+            const minutes = () => {
+                return raw_minutes < 10 ? "0"+raw_minutes : raw_minutes;
+            };
+
+            const seconds = () => {
+                return raw_seconds < 10 ? "0"+raw_seconds : raw_seconds;
+            };
+
+            return minutes()+":"+seconds();
+        }
+
+        this.setState({
+            time_paused: String(time_parser(Math.round(time_paused + Number.EPSILON))),
+            time_phase_1: String(time_parser(Math.round(time_phase_1 + Number.EPSILON))),
+            time_phase_2: String(time_parser(Math.round(time_phase_2 + Number.EPSILON))),
+            time_phase_3: String(time_parser(Math.round(time_phase_3 + Number.EPSILON))),
+            time_total: String(time_parser(Math.round(time_phase_1 + Number.EPSILON) + Math.round(time_phase_2 + Number.EPSILON) +
+                Math.round(time_phase_3 + Number.EPSILON) + Math.round(time_paused + Number.EPSILON)))
+        })
     }
 
     //game flow functions
@@ -330,12 +354,17 @@ class Game extends React.Component {
                         phase: 4,
                         time_phase_3: time_holder + this.stopwatch_end()
                     })
+                    this.round_timers();
+                    this.calculate_recall_rate();
                     console.log("phase 3 timer has stopped")
                 }
             }
+            console.log(this.state.time_phase_1)
+            console.log(this.state.time_phase_2)
+            console.log(this.state.time_phase_3)
+            console.log(phase)
         }
     }
-
 
 
     render() {
@@ -362,10 +391,12 @@ class Game extends React.Component {
                             cards_recalled={this.state.cards_recalled}
                             recall_check={this.state.recall_check}
                             incorrect_recalls={this.state.incorrect_recalls}
+                            recall_rate={this.state.recall_rate}
                             time_phase_1={this.state.time_phase_1}
                             time_phase_2={this.state.time_phase_2}
                             time_phase_3={this.state.time_phase_3}
                             time_paused={this.state.time_paused}
+                            time_total={this.state.time_total}
                             username_input={this.onUsernameChange}
                             username={this.state.username}
                         />
@@ -403,4 +434,4 @@ class Game extends React.Component {
 
 
 
-export {Game, loc_deck_create, temp_deck_create, shuffle_deck, time_parser};
+export {Game, loc_deck_create, temp_deck_create, shuffle_deck};
