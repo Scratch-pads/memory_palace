@@ -70,11 +70,16 @@ class Game extends React.Component {
             recall_check: true,
             time_holder: 0,
             time_paused: 0,
+            paused: false,
             time_phase_1: 0,
             time_phase_2: 0,
             time_phase_3: 0,
             time_total: 0,
-            paused: false,
+            string_time_paused: "",
+            string_time_phase_1: "",
+            string_time_phase_2: "",
+            string_time_phase_3: "",
+            string_time_total: "",
             username: ""
         }
 
@@ -83,7 +88,6 @@ class Game extends React.Component {
         this.skip_phase = this.skip_phase.bind(this);
         this.force_recall_check = this.force_recall_check.bind(this);
         this.pause_resume = this.pause_resume.bind(this);
-        this.round_timers = this.round_timers.bind(this);
         this.show_recall_btns = this.show_recall_btns.bind(this);
         this.calculate_recall_rate = this.calculate_recall_rate.bind(this);
     }
@@ -178,13 +182,13 @@ class Game extends React.Component {
         }
 
         this.setState({
-            time_paused: String(time_parser(Math.round(time_paused + Number.EPSILON))),
-            time_phase_1: String(time_parser(Math.round(time_phase_1 + Number.EPSILON))),
-            time_phase_2: String(time_parser(Math.round(time_phase_2 + Number.EPSILON))),
-            time_phase_3: String(time_parser(Math.round(time_phase_3 + Number.EPSILON))),
-            time_total: String(time_parser(Math.round(time_phase_1 + Number.EPSILON) + Math.round(time_phase_2 + Number.EPSILON) +
-                Math.round(time_phase_3 + Number.EPSILON) + Math.round(time_paused + Number.EPSILON)))
-        })
+            string_time_paused: time_parser(Math.round(time_paused + Number.EPSILON)),
+            string_time_phase_1: time_parser(Math.round(time_phase_1 + Number.EPSILON)),
+            string_time_phase_2: time_parser(Math.round(time_phase_2 + Number.EPSILON)),
+            string_time_phase_3: time_parser(Math.round(time_phase_3 + Number.EPSILON)),
+            string_time_total: time_parser(Math.round(time_phase_1 + Number.EPSILON) + Math.round(time_phase_2 + Number.EPSILON) +
+                Math.round(time_phase_3 + Number.EPSILON) + Math.round(time_paused + Number.EPSILON))
+        });
     }
 
     //game flow functions
@@ -285,23 +289,14 @@ class Game extends React.Component {
                         time_phase_1: time_holder + this.stopwatch_end(),
                         time_holder: 0
                     })
-                    console.log("phase 1 timer has stopped")
-
                     this.stopwatch_start()
-                    console.log("phase 2 timer has started")
                 }
                 if(phase === 2){
-
-
                     this.setState({
                         time_phase_2: time_holder + this.stopwatch_end(),
                         time_holder: 0
                     })
-                    console.log("phase 2 timer has stopped")
-
-                    this.stopwatch_start()
-                    console.log("phase 3 timer has started")
-
+                    this.stopwatch_start();
                     this.show_recall_btns();
                 }
                 if(phase === 3){
@@ -309,7 +304,8 @@ class Game extends React.Component {
                         time_phase_3: time_holder + this.stopwatch_end(),
                         time_holder: 0
                     })
-                    console.log("phase 3 timer has stopped")
+                    this.round_timers();
+                    this.calculate_recall_rate();
                 }
 
                 this.setState({
@@ -334,7 +330,6 @@ class Game extends React.Component {
                         incorrect_recalls: incorrect_recalls + 1
                     })
                 }
-                console.log(e.target.id)
 
                 //advance with recall phase
                 this.setState({
@@ -356,7 +351,6 @@ class Game extends React.Component {
                     })
                     this.round_timers();
                     this.calculate_recall_rate();
-                    console.log("phase 3 timer has stopped")
                 }
             }
             console.log(this.state.time_phase_1)
@@ -392,11 +386,11 @@ class Game extends React.Component {
                             recall_check={this.state.recall_check}
                             incorrect_recalls={this.state.incorrect_recalls}
                             recall_rate={this.state.recall_rate}
-                            time_phase_1={this.state.time_phase_1}
-                            time_phase_2={this.state.time_phase_2}
-                            time_phase_3={this.state.time_phase_3}
-                            time_paused={this.state.time_paused}
-                            time_total={this.state.time_total}
+                            time_phase_1={this.state.string_time_phase_1}
+                            time_phase_2={this.state.string_time_phase_2}
+                            time_phase_3={this.state.string_time_phase_3}
+                            time_paused={this.state.string_time_paused}
+                            time_total={this.state.string_time_total}
                             username_input={this.onUsernameChange}
                             username={this.state.username}
                         />
