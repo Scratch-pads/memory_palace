@@ -39,8 +39,9 @@ const Next_Card = (props) => {
             {props.phase === 1 && props.cards_to_recall === props.shuffled_deck ? <p>Next Phase</p> : null}
             {props.phase === 2 ? <p>Next Phase</p> : null}
             {props.phase === 3 && props.cards_recalled <= props.cards_to_recall ? <p>Next Card</p> : null}
-            {props.phase === 4 ? <p>Submit Scores</p> : null}
-            {props.phase === 5 ? <div> <p>Confirm</p> <p>&</p> <p>Submit</p> </div> : null}
+            {props.phase === 4 ? <p>View Scores</p> : null}
+            {props.phase === 5 ? <p>Submit Scores</p> : null}
+            {props.phase === 6 ? <div> <p>Confirm</p> <p>&</p> <p>Submit</p> </div> : null}
         </div>
     )
 }

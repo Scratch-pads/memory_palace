@@ -25,10 +25,6 @@ const temp_deck_create = () => {
         let non_num_val_pointer = 0
         let card = [];
         for(let numerical_val=1;numerical_val<=13;numerical_val++){
-            // if(numerical_val===1){
-            //     card = [ non_numerical_vals[non_num_val_pointer], suite[suite_pointer] ];
-            //     non_num_val_pointer++;
-            // } else
             if(numerical_val >= 2 && numerical_val < 11){
                 card = [ numerical_val, suite[suite_pointer]]
             } else {
@@ -255,10 +251,18 @@ class Game extends React.Component {
                 })
                 //phase 3 stopwatch ends when recall buttons are pressed
             } else if (phase === 4){
+
+                this.round_timers();
+                this.calculate_recall_rate();
+
                 this.setState({
                     phase: 5
                 })
-            } else if (phase === 5){
+            } else if (phase === 5) {
+                this.setState({
+                    phase: 6
+                })
+            } else if (phase === 6){
                 console.log(username.length)
                 if(time_paused > 0){
                     alert("Game was paused at some point. We don't know if you were cheating or not, therefore, you cannot submit your scores")
@@ -267,13 +271,10 @@ class Game extends React.Component {
                 } else {
                     sendScores(this.state)
                 }
-
-
             }
-
         }
-
     }
+
     skip_phase = () => {
         const {phase, cards_to_recall, paused, time_holder} = this.state;
 
@@ -304,6 +305,8 @@ class Game extends React.Component {
                         time_phase_3: time_holder + this.stopwatch_end(),
                         time_holder: 0
                     })
+                }
+                if(phase === 4){
                     this.round_timers();
                     this.calculate_recall_rate();
                 }
@@ -349,8 +352,6 @@ class Game extends React.Component {
                         phase: 4,
                         time_phase_3: time_holder + this.stopwatch_end()
                     })
-                    this.round_timers();
-                    this.calculate_recall_rate();
                 }
             }
             console.log(this.state.time_phase_1)

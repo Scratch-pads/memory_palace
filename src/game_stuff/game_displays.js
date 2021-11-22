@@ -77,6 +77,11 @@ const Cards_Display = (props) => {
                 ? <p>What's the next card?</p>
                 : null}
             {props.phase === 4
+                ? <div>
+                    <h3>End Game</h3>
+                </div>
+                : null}
+            {props.phase === 5
                 ? <div id={"scores_display"}>
                     <h2>Here are your stats:</h2>
                     <div className="score-element">
@@ -140,7 +145,7 @@ const Cards_Display = (props) => {
                     </div>
                 </div>
                 : null}
-            {props.phase === 5
+            {props.phase === 6
                 ? <Enter_Username
                     username_input={props.username_input}
                     username={props.username}/>
@@ -155,11 +160,11 @@ const Enter_Username = (props) => {
         <div >
             <h2>Enter Username:</h2>
             <input className={"form-control"}
-                name={"username"}
-                id={"username-input"}
-                placeholder={"username"}
-                onChange={props.username_input}
-                value={props.username} />
+                   name={"username"}
+                   id={"username-input"}
+                   placeholder={"username"}
+                   onChange={props.username_input}
+                   value={props.username} />
         </div>
     )
 }
