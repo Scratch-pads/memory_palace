@@ -69,6 +69,7 @@ const Correct_Recall = (props) => {
 }
 
 const Start_Pause_Resume_Game = (props) => {
+
     return(
         <div className="game-text-center clickable clickablePassive btn-palace"
              onClick={props.pause_resume}>

@@ -86,6 +86,15 @@ class Game extends React.Component {
         this.pause_resume = this.pause_resume.bind(this);
         this.show_recall_btns = this.show_recall_btns.bind(this);
         this.calculate_recall_rate = this.calculate_recall_rate.bind(this);
+        this.disable_buttons = this.disable_buttons.bind(this);
+    }
+
+    disable_buttons = (...args) => {
+        const buttons_ids = [...args]
+
+        for(let i = 0; i < buttons_ids.length; i++){
+
+        }
     }
 
 
