@@ -49,7 +49,7 @@ const Next_Card = (props) => {
 const Incorrect_Recall = (props) => {
     return(
         <div id={"incorrect-recall"}
-             className={"game-text-center btn-recall-hidden btn-palace clickable clickablePassive"}
+             className={"game-text-center btn-recall-hidden btn-palace paused"}
              onClick={props.force_recall_check}>
             <p id={"incorrect-recall-text"}>Incorrect Recall</p>
             <FontAwesomeIcon id={"incorrect-recall-icon"} icon={faTimesCircle} size={"3x"}/>
@@ -60,7 +60,7 @@ const Incorrect_Recall = (props) => {
 const Correct_Recall = (props) => {
     return(
         <div id={"correct-recall"}
-             className={"game-text-center btn-recall-hidden btn-palace clickable clickablePassive"}
+             className={"game-text-center btn-recall-hidden btn-palace paused"}
              onClick={props.force_recall_check}>
             <p id={"correct-recall-text"} >Correct Recall</p>
             <FontAwesomeIcon id={"correct-recall-icon"} icon={faCheckCircle} size={"3x"} />
@@ -71,7 +71,7 @@ const Correct_Recall = (props) => {
 const Start_Pause_Resume_Game = (props) => {
 
     return(
-        <div className="game-text-center clickable clickablePassive btn-palace"
+        <div id={"btn-pause-resume"} className="game-text-center btn-palace paused"
              onClick={props.pause_resume}>
             {!props.paused ? <p>Pause</p> : <p>Resume</p>}
         </div>
