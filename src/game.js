@@ -191,6 +191,37 @@ class Game extends React.Component {
             if(cards_to_recall > 0 && phase < 3){
 
                 roll_buttons.forEach(element => {
+                    document.getElementById(element).classList.replace("clickablePassive", "paused")
+                    document.getElementById(element).classList.remove("clickable")
+                });
+
+            }else if(phase === 3){
+                if(recall_check){
+
+                    recall_buttons.forEach(element => {
+                        document.getElementById(element).classList.replace("clickablePassive", "paused")
+                        document.getElementById(element).classList.remove("clickable")
+                    })
+
+                }else{
+
+                    roll_buttons.forEach(element => {
+                        document.getElementById(element).classList.replace("clickablePassive", "paused")
+                        document.getElementById(element).classList.remove("clickable")
+                    })
+
+                }
+            }
+            //stop phase timer and start pause timer
+            this.setState({
+                paused: true,
+                time_holder: time_holder + this.stopwatch_end()
+            })
+
+        }else{
+            if(cards_to_recall > 0 && phase < 3){
+
+                roll_buttons.forEach(element => {
                     document.getElementById(element).classList.replace("paused", "clickablePassive")
                     document.getElementById(element).classList.add("clickable")
                 })
@@ -198,33 +229,29 @@ class Game extends React.Component {
             }else if(phase === 3){
                 if(recall_check){
 
-
+                    recall_buttons.forEach(element => {
+                        document.getElementById(element).classList.replace("paused", "clickablePassive")
+                        document.getElementById(element).classList.add("clickable")
+                    })
 
                 }else{
+
+                    roll_buttons.forEach(element => {
+                        document.getElementById(element).classList.replace("paused", "clickablePassive")
+                        document.getElementById(element).classList.add("clickable")
+                    })
 
                 }
             }
 
-            //stop phase timer and start pause timer
+            //stop pause timer and start phase timer
             this.setState({
-                paused: true,
-                time_holder: time_holder + this.stopwatch_end()
+                paused: false,
+                time_paused: time_paused + this.stopwatch_end()
             })
-            this.stopwatch_start()
-
-        }else{
-            if(cards_to_recall > 0 && phase < 3){
-
-            }else if(phase === 3){
-                if(recall_check){
-
-                }else{
-
-                }
-            }
         }
 
-
+        this.stopwatch_start()
     }
 
     round_timers = () => {
@@ -482,7 +509,7 @@ class Game extends React.Component {
                             <btns.Correct_Recall force_recall_check={this.force_recall_check}/>
                         </div>
                         <btns.Start_Pause_Resume_Game
-                            pause_resume={this.pause_resume}
+                            pause_resume={this.pauseResumeNew}
                             paused={this.state.paused} />
                         <btns.Menu_btn />
                     </div>
