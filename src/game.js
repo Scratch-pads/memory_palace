@@ -63,7 +63,7 @@ class Game extends React.Component {
             cards_recalled: 0,
             incorrect_recalls: 0,
             recall_rate: null,
-            recall_check: true,
+            recall_check: false,
             time_holder: 0,
             time_paused: 0,
             paused: false,
@@ -148,10 +148,11 @@ class Game extends React.Component {
         if(cards_to_recall > 0 && phase < 4){
             if(!paused){
                 //visual disable
-                game_btns.forEach(element => {
-                    document.getElementById(element).classList.replace("clickablePassive", "paused")
-                    document.getElementById(element).classList.remove("clickable")
-                });
+                this.disable_buttons(...game_btns)
+                // game_btns.forEach(element => {
+                //     document.getElementById(element).classList.replace("clickablePassive", "paused")
+                //     document.getElementById(element).classList.remove("clickable")
+                // });
 
                 //stop phase timer and start pause timer
                 this.setState({
@@ -162,6 +163,7 @@ class Game extends React.Component {
 
             } else {
                 //visual enable
+                this.reenable_buttons(...game_btns)
                 game_btns.forEach(element => {
                     document.getElementById(element).classList.replace("paused", "clickablePassive")
                     document.getElementById(element).classList.add("clickable")
@@ -341,13 +343,13 @@ class Game extends React.Component {
 
                 this.show_recall_btns();
 
-            } else if (phase === 3 && recall_check === true && cards_to_recall > cards_recalled){
+            } else if (phase === 3 && recall_check === false && cards_to_recall > cards_recalled){
 
                 this.disable_buttons("next-card")
                 this.reenable_buttons("incorrect-recall", "correct-recall")
 
                 this.setState({
-                    recall_check: false
+                    recall_check: true
                 })
                 //phase 3 stopwatch ends when recall buttons are pressed
             } else if (phase === 4){
@@ -423,7 +425,7 @@ class Game extends React.Component {
         const {phase, recall_check, incorrect_recalls, cards_recalled, cards_to_recall, paused, time_holder} = this.state;
 
         if(!paused){
-            if (phase === 3 && recall_check === false){
+            if (phase === 3 && recall_check === true){
 
                 this.disable_buttons("incorrect-recall", "correct-recall")
                 this.reenable_buttons("next-card")
@@ -442,7 +444,7 @@ class Game extends React.Component {
                 //advance with recall phase
                 this.setState({
                     cards_recalled: cards_recalled + 1,
-                    recall_check: true
+                    recall_check: false
                 })
 
                 //end game if cards_recalled === cards_to_recall - 1

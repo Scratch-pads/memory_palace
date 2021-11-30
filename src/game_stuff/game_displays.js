@@ -68,12 +68,12 @@ const Cards_Display = (props) => {
                     <h2>Recall Phase</h2>
                 </div>
                 : null}
-            {props.phase === 3 && props.recall_check === false
+            {props.phase === 3 && props.recall_check === true
                 ? <div>
                     {props.shuffled_deck[props.cards_recalled][0]}, {props.shuffled_deck[props.cards_recalled][1]}
                 </div>
                 : null}
-            {props.phase === 3 && props.recall_check === true && props.cards_recalled !== props.cards_to_recall
+            {props.phase === 3 && props.recall_check === false && props.cards_recalled !== props.cards_to_recall
                 ? <p>What's the next card?</p>
                 : null}
             {props.phase === 4
