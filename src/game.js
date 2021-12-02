@@ -71,6 +71,7 @@ class Game extends React.Component {
             time_phase_2: 0,
             time_phase_3: 0,
             time_total: 0,
+            can_submit: [true, null],
             string_time_paused: "",
             string_time_phase_1: "",
             string_time_phase_2: "",
@@ -140,57 +141,64 @@ class Game extends React.Component {
         return Math.round(time_end - time_start)/1000;
     }
 
-    pause_resume = () => {
-        const {phase, paused, time_holder, time_paused, cards_to_recall} = this.state;
-
-        let game_btns = ["skip-phase", "next-card", "incorrect-recall", "correct-recall"];
-
-        if(cards_to_recall > 0 && phase < 4){
-            if(!paused){
-                //visual disable
-                this.disable_buttons(...game_btns)
-                // game_btns.forEach(element => {
-                //     document.getElementById(element).classList.replace("clickablePassive", "paused")
-                //     document.getElementById(element).classList.remove("clickable")
-                // });
-
-                //stop phase timer and start pause timer
-                this.setState({
-                    paused: true,
-                    time_holder: time_holder + this.stopwatch_end()
-                })
-                this.stopwatch_start()
-
-            } else {
-                //visual enable
-                this.reenable_buttons(...game_btns)
-                game_btns.forEach(element => {
-                    document.getElementById(element).classList.replace("paused", "clickablePassive")
-                    document.getElementById(element).classList.add("clickable")
-                })
-
-                //stop pause timer and start phase timer
-                this.setState({
-                    paused: false,
-                    time_paused: time_paused + this.stopwatch_end()
-                })
-                this.stopwatch_start()
-            }
-
-        }
-
-        console.log("time_paused: " + time_paused)
-        console.log("time_holder: " + time_holder)
-    }
+    // pause_resume = () => {
+    //     const {phase, paused, time_holder, time_paused, cards_to_recall} = this.state;
+    //
+    //     let game_btns = ["skip-phase", "next-card", "incorrect-recall", "correct-recall"];
+    //
+    //     if(cards_to_recall > 0 && phase < 4){
+    //         if(!paused){
+    //             //visual disable
+    //             this.disable_buttons(...game_btns)
+    //             // game_btns.forEach(element => {
+    //             //     document.getElementById(element).classList.replace("clickablePassive", "paused")
+    //             //     document.getElementById(element).classList.remove("clickable")
+    //             // });
+    //
+    //             //stop phase timer and start pause timer
+    //             this.setState({
+    //                 paused: true,
+    //                 time_holder: time_holder + this.stopwatch_end()
+    //             })
+    //             this.stopwatch_start()
+    //
+    //         } else {
+    //             //visual enable
+    //             this.reenable_buttons(...game_btns)
+    //             game_btns.forEach(element => {
+    //                 document.getElementById(element).classList.replace("paused", "clickablePassive")
+    //                 document.getElementById(element).classList.add("clickable")
+    //             })
+    //
+    //             //stop pause timer and start phase timer
+    //             this.setState({
+    //                 paused: false,
+    //                 time_paused: time_paused + this.stopwatch_end()
+    //             })
+    //             this.stopwatch_start()
+    //         }
+    //
+    //     }
+    //
+    //     console.log("time_paused: " + time_paused)
+    //     console.log("time_holder: " + time_holder)
+    // }
 
     pauseResumeNew = () => {
-        const {phase, paused, time_holder, time_paused, cards_to_recall, recall_check} = this.state;
+        const {phase, paused, time_holder, time_paused, cards_to_recall, recall_check, can_submit} = this.state;
 
         const roll_buttons = ["skip-phase", "next-card"];
         const recall_buttons = ["incorrect-recall", "correct-recall"];
 
         if(!paused){
             if(cards_to_recall > 0 && phase < 3){
+
+                //disallow scores submission if game is paused at any point
+                if(can_submit[0] === true){
+                    this.setState({
+                        can_submit: [false, "Game was paused at some point. Since we can't tell if you were cheating or not, you cannot submit your scores."]
+                    })
+                }
 
                 roll_buttons.forEach(element => {
                     document.getElementById(element).classList.replace("clickablePassive", "paused")
@@ -377,7 +385,7 @@ class Game extends React.Component {
     }
 
     skip_phase = () => {
-        const {phase, cards_to_recall, paused, time_holder} = this.state;
+        const {phase, cards_to_recall, paused, time_holder, can_submit} = this.state;
 
         if(!paused){
             //start game
@@ -404,7 +412,8 @@ class Game extends React.Component {
                 if(phase === 3){
                     this.setState({
                         time_phase_3: time_holder + this.stopwatch_end(),
-                        time_holder: 0
+                        time_holder: 0,
+                        can_submit: [false, "Game was ended prematurely. You cannot submit your scores."]
                     })
                     this.disable_buttons("btn-pause-resume", "skip-phase")
                     console.log("phase 3 timer has stopped")
