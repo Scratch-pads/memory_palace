@@ -207,18 +207,18 @@ class Game extends React.Component {
 
                 }else{
 
-                    roll_buttons.forEach(element => {
-                        document.getElementById(element).classList.replace("clickablePassive", "paused")
-                        document.getElementById(element).classList.remove("clickable")
-                    })
+                    document.getElementById("next-card").classList.replace("clickablePassive", "paused")
+                    document.getElementById("next-card").classList.remove("clickable")
 
                 }
             }
             //stop phase timer and start pause timer
-            this.setState({
-                paused: true,
-                time_holder: time_holder + this.stopwatch_end()
-            })
+            if(phase > 0 && phase < 4){
+                this.setState({
+                    paused: true,
+                    time_holder: time_holder + this.stopwatch_end()
+                })
+            }
 
         }else{
             if(cards_to_recall > 0 && phase < 3){
@@ -238,19 +238,18 @@ class Game extends React.Component {
 
                 }else{
 
-                    roll_buttons.forEach(element => {
-                        document.getElementById(element).classList.replace("paused", "clickablePassive")
-                        document.getElementById(element).classList.add("clickable")
-                    })
-
+                    document.getElementById("next-card").classList.replace("paused", "clickablePassive")
+                    document.getElementById("next-card").classList.add("clickable")
                 }
             }
 
             //stop pause timer and start phase timer
-            this.setState({
-                paused: false,
-                time_paused: time_paused + this.stopwatch_end()
-            })
+            if(phase > 0 && phase < 4){
+                this.setState({
+                    paused: false,
+                    time_paused: time_paused + this.stopwatch_end()
+                })
+            }
         }
 
         this.stopwatch_start()
