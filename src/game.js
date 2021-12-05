@@ -3,7 +3,7 @@ import React from "react";
 import * as btns from "./game_stuff/game_btns"
 import * as displays from "./game_stuff/game_displays"
 // import * as scores from "./game_stuff/game_scores"
-import {sendScores} from "./game_stuff/game_scores";
+// import {sendScores} from "./game_stuff/game_scores";
 
 let time_start, time_end;
 const loc_deck_create = () => {
@@ -53,6 +53,24 @@ const shuffle_deck = (deck) => {
     return deck;
 }
 
+const disable_buttons = (...args) => {
+    const buttons_ids = [...args]
+
+    buttons_ids.forEach(element => {
+        document.getElementById(element).classList.replace("clickablePassive", "paused")
+        document.getElementById(element).classList.remove("clickable")
+    })
+}
+
+const reenable_buttons = (...args) => {
+    const button_ids = [...args]
+
+    button_ids.forEach(element => {
+        document.getElementById(element).classList.replace("paused", "clickablePassive")
+        document.getElementById(element).classList.add("clickable")
+    })
+}
+
 class Game extends React.Component {
     constructor(props) {
         super(props);
@@ -84,32 +102,12 @@ class Game extends React.Component {
         this.roll_shuffled_deck = this.roll_shuffled_deck.bind(this);
         this.skip_phase = this.skip_phase.bind(this);
         this.force_recall_check = this.force_recall_check.bind(this);
-        this.pause_resume = this.pause_resume.bind(this);
         this.pauseResumeNew = this.pauseResumeNew.bind(this);
         this.show_recall_btns = this.show_recall_btns.bind(this);
         this.calculate_recall_rate = this.calculate_recall_rate.bind(this);
-        this.disable_buttons = this.disable_buttons.bind(this);
-        this.reenable_buttons = this.reenable_buttons.bind(this);
+        // this.disable_buttons = this.disable_buttons.bind(this);
+        // this.reenable_buttons = this.reenable_buttons.bind(this);
     }
-
-    disable_buttons = (...args) => {
-        const buttons_ids = [...args]
-
-        buttons_ids.forEach(element => {
-            document.getElementById(element).classList.replace("clickablePassive", "paused")
-            document.getElementById(element).classList.remove("clickable")
-        })
-    }
-
-    reenable_buttons = (...args) => {
-        const button_ids = [...args]
-
-        button_ids.forEach(element => {
-            document.getElementById(element).classList.replace("paused", "clickablePassive")
-            document.getElementById(element).classList.add("clickable")
-        })
-    }
-
 
     show_recall_btns = () => {
         const recall_btns = ["incorrect-recall", "correct-recall"];
@@ -140,49 +138,6 @@ class Game extends React.Component {
         time_end = new Date();
         return Math.round(time_end - time_start)/1000;
     }
-
-    // pause_resume = () => {
-    //     const {phase, paused, time_holder, time_paused, cards_to_recall} = this.state;
-    //
-    //     let game_btns = ["skip-phase", "next-card", "incorrect-recall", "correct-recall"];
-    //
-    //     if(cards_to_recall > 0 && phase < 4){
-    //         if(!paused){
-    //             //visual disable
-    //             this.disable_buttons(...game_btns)
-    //             // game_btns.forEach(element => {
-    //             //     document.getElementById(element).classList.replace("clickablePassive", "paused")
-    //             //     document.getElementById(element).classList.remove("clickable")
-    //             // });
-    //
-    //             //stop phase timer and start pause timer
-    //             this.setState({
-    //                 paused: true,
-    //                 time_holder: time_holder + this.stopwatch_end()
-    //             })
-    //             this.stopwatch_start()
-    //
-    //         } else {
-    //             //visual enable
-    //             this.reenable_buttons(...game_btns)
-    //             game_btns.forEach(element => {
-    //                 document.getElementById(element).classList.replace("paused", "clickablePassive")
-    //                 document.getElementById(element).classList.add("clickable")
-    //             })
-    //
-    //             //stop pause timer and start phase timer
-    //             this.setState({
-    //                 paused: false,
-    //                 time_paused: time_paused + this.stopwatch_end()
-    //             })
-    //             this.stopwatch_start()
-    //         }
-    //
-    //     }
-    //
-    //     console.log("time_paused: " + time_paused)
-    //     console.log("time_holder: " + time_holder)
-    // }
 
     pauseResumeNew = () => {
         const {phase, paused, time_holder, time_paused, cards_to_recall, recall_check, can_submit} = this.state;
@@ -294,7 +249,7 @@ class Game extends React.Component {
     //game flow functions
     roll_shuffled_deck = () => {
         const {phase, shuffled_deck, cards_to_recall, cards_recalled,
-            recall_check, paused, time_holder, username, time_paused} = this.state;
+            recall_check, paused, time_holder, username, can_submit} = this.state;
 
         if(!paused){
 
@@ -308,7 +263,7 @@ class Game extends React.Component {
 
                 //start phase 1 stopwatch
                 if(cards_to_recall === 0){
-                    this.reenable_buttons("btn-pause-resume")
+                    reenable_buttons("btn-pause-resume")
                     this.stopwatch_start();
                     console.log("phase 1 timer has started")
                 }
@@ -352,8 +307,8 @@ class Game extends React.Component {
 
             } else if (phase === 3 && recall_check === false && cards_to_recall > cards_recalled){
 
-                this.disable_buttons("next-card")
-                this.reenable_buttons("incorrect-recall", "correct-recall")
+                disable_buttons("next-card")
+                reenable_buttons("incorrect-recall", "correct-recall")
 
                 this.setState({
                     recall_check: true
@@ -361,31 +316,39 @@ class Game extends React.Component {
                 //phase 3 stopwatch ends when recall buttons are pressed
             } else if (phase === 4){
 
+                //scores parsing. Don't touch this
                 this.round_timers();
                 this.calculate_recall_rate();
 
                 this.setState({
                     phase: 5
                 })
+
             } else if (phase === 5) {
-                this.setState({
-                    phase: 6
-                })
+                if(can_submit[0]){
+
+                    this.setState({
+                        phase: 6
+                    })
+
+                } else {
+                    alert(can_submit[1])
+                }
+
             } else if (phase === 6){
-                console.log(username.length)
-                if(time_paused > 0){
-                    alert("Game was paused at some point. We don't know if you were cheating or not, therefore, you cannot submit your scores")
-                } else if (username.length < 6) {
+
+                if (username.length < 6) {
                     alert("Username need to be at least 6 characters long")
                 } else {
-                    sendScores(this.state)
+                    alert("BE is not done yet bruh")
+                    // sendScores(this.state)
                 }
             }
         }
     }
 
     skip_phase = () => {
-        const {phase, cards_to_recall, paused, time_holder, can_submit} = this.state;
+        const {phase, cards_to_recall, paused, time_holder} = this.state;
 
         if(!paused){
             //start game
@@ -415,7 +378,7 @@ class Game extends React.Component {
                         time_holder: 0,
                         can_submit: [false, "Game was ended prematurely. You cannot submit your scores."]
                     })
-                    this.disable_buttons("btn-pause-resume", "skip-phase")
+                    disable_buttons("btn-pause-resume", "skip-phase")
                     console.log("phase 3 timer has stopped")
                 }
                 if(phase === 4){
@@ -429,14 +392,15 @@ class Game extends React.Component {
             }
         }
     }
+
     force_recall_check = (e) => {
         const {phase, recall_check, incorrect_recalls, cards_recalled, cards_to_recall, paused, time_holder} = this.state;
 
         if(!paused){
             if (phase === 3 && recall_check === true){
 
-                this.disable_buttons("incorrect-recall", "correct-recall")
-                this.reenable_buttons("next-card")
+                disable_buttons("incorrect-recall", "correct-recall")
+                reenable_buttons("next-card")
 
                 //count incorrect recalls
                 //icons are a bit of a pain in the ass
@@ -467,7 +431,7 @@ class Game extends React.Component {
                         phase: 4,
                         time_phase_3: time_holder + this.stopwatch_end()
                     })
-                    this.disable_buttons("btn-pause-resume", "skip-phase")
+                    disable_buttons("btn-pause-resume", "skip-phase")
                     console.log("phase 3 timer has stopped")
                 }
             }
@@ -544,6 +508,4 @@ class Game extends React.Component {
     }
 }
 
-
-
-export {Game, loc_deck_create, temp_deck_create, shuffle_deck};
+export {Game, loc_deck_create, temp_deck_create, shuffle_deck, disable_buttons, reenable_buttons};

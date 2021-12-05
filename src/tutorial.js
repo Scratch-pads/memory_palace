@@ -1,5 +1,5 @@
 import React from "react";
-import {loc_deck_create, temp_deck_create, shuffle_deck} from "./game";
+import {loc_deck_create, temp_deck_create, shuffle_deck, disable_buttons, reenable_buttons} from "./game";
 import {Menu_btn} from "./game_stuff/game_btns";
 import Tutorial_display from "./tutorial_stuff/tutorial_display";
 import {Tutorial_Next, Tutorial_Previous} from "./tutorial_stuff/tutorial_btns";
@@ -53,7 +53,7 @@ class Tutorial extends React.Component{
     roll_next_panel = () => {
         const {tutorial_panel, phase, cards_recalled} = this.state;
 
-        if(tutorial_panel >= 0 && tutorial_panel < 7){
+        if(tutorial_panel > 0 && tutorial_panel < 7){
             if(tutorial_panel !== 6){
                 this.setState({tutorial_panel: tutorial_panel + 1})
             } else if (phase === 3 && cards_recalled === 10){
@@ -62,6 +62,15 @@ class Tutorial extends React.Component{
                 this.roll_cards()
             }
         }
+
+        if(tutorial_panel === 1){
+            reenable_buttons("previous-panel")
+        }
+        if(tutorial_panel === 6 && cards_recalled === 10){
+            disable_buttons("next-panel")
+        }
+
+
     }
 
     //this function doesn't care about cards and phases. It just resets them to 0
@@ -80,6 +89,14 @@ class Tutorial extends React.Component{
                 cards_recalled: 0,
                 recall_check: true
             })
+        }
+
+
+        if(tutorial_panel === 2){
+            disable_buttons("previous-panel")
+        }
+        if (tutorial_panel === 7){
+            reenable_buttons("next-panel")
         }
     }
 

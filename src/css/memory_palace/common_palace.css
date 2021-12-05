@@ -76,10 +76,10 @@
     height: 100%;
 }
 
-#incorrect-recall{
+#incorrect-recall, #previous-panel{
     margin: 0 0.5rem 1rem 1rem;
 }
-#correct-recall{
+#correct-recall, #next-panel{
     margin: 0 1rem 1rem 0.5rem ;
 }
 
