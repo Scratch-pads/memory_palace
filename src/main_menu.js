@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom"
 
 //game sections
-import {Game} from "./game";
-import Tutorial from "./tutorial";
+import {Game} from "./game/game";
+import Tutorial from "./tutorial/tutorial";
 
 const Main_Menu = () => {
 

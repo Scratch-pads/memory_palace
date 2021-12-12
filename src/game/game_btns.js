@@ -35,10 +35,10 @@ const Next_Card = (props) => {
         <div id={"next-card"} className="game-text-center game-phase-btn btn-palace clickable clickablePassive"
              onClick={props.roll_shuffled_deck}>
             {props.phase === 0 ? <p>Start Game</p> : null}
-            {props.phase === 1 && props.cards_to_recall < props.shuffled_deck ? <p>Next Card</p> : null}
-            {props.phase === 1 && props.cards_to_recall === props.shuffled_deck ? <p>Next Phase</p> : null}
+            {props.phase === 1 && props.cardsToRecall < props.shuffledDeck ? <p>Next Card</p> : null}
+            {props.phase === 1 && props.cardsToRecall === props.shuffledDeck ? <p>Next Phase</p> : null}
             {props.phase === 2 ? <p>Next Phase</p> : null}
-            {props.phase === 3 && props.cards_recalled <= props.cards_to_recall ? <p>Next Card</p> : null}
+            {props.phase === 3 && props.cardsRecalled <= props.cardsToRecall ? <p>Next Card</p> : null}
             {props.phase === 4 ? <p>View Scores</p> : null}
             {props.phase === 5 ? <p>Submit Scores</p> : null}
             {props.phase === 6 ? <div> <p>Confirm</p> <p>&</p> <p>Submit</p> </div> : null}

@@ -32,29 +32,13 @@ const Canvas = (props) => {
 
 
 const Cards_Display = (props) => {
-
-    // const shuffled_deck = props.shuffled_deck;
-    // const time_phase_1 = Math.round(props.time_phase_1 + Number.EPSILON);
-    // const cards_memorized = props.cards_to_recall;
-    // const time_phase_2 = Math.round((props.time_phase_2 + Number.EPSILON));
-    // const time_phase_3 = Math.round((props.time_phase_3 + Number.EPSILON));
-    // const cards_recalled = props.cards_recalled;
-    // const incorrect_recalls = props.incorrect_recalls;
-    // const recall_rate = Math.round((props.cards_recalled - props.incorrect_recalls)/props.cards_to_recall * 100);
-    // const time_paused = Math.round((props.time_paused + Number.EPSILON));
-    // const time_total = Math.round((props.time_phase_1 + Number.EPSILON)) + Math.round((props.time_phase_2 + Number.EPSILON)) +
-    //         Math.round((props.time_phase_3 + Number.EPSILON)) + Math.round((props.time_paused + Number.EPSILON));
-
-
-
-
     return(
         <div id={"cards_display"}>
             {props.phase === 0 ? <p>Start Game</p> : null}
             {props.phase === 1
                 ? <div>
                     <h2>Memorization Phase</h2>
-                    <p>{props.shuffled_deck[props.cards_to_recall - 1]}</p>
+                    <p>{props.shuffledDeck[props.cardsToRecall - 1]}</p>
                 </div>
                 : null}
             {props.phase === 2
@@ -70,10 +54,10 @@ const Cards_Display = (props) => {
                 : null}
             {props.phase === 3 && props.recall_check === true
                 ? <div>
-                    {props.shuffled_deck[props.cards_recalled][0]}, {props.shuffled_deck[props.cards_recalled][1]}
+                    {props.shuffledDeck[props.cardsRecalled][0]}, {props.shuffledDeck[props.cardsRecalled][1]}
                 </div>
                 : null}
-            {props.phase === 3 && props.recall_check === false && props.cards_recalled !== props.cards_to_recall
+            {props.phase === 3 && props.recall_check === false && props.cardsRecalled !== props.cardsToRecall
                 ? <p>What's the next card?</p>
                 : null}
             {props.phase === 4
@@ -97,7 +81,7 @@ const Cards_Display = (props) => {
                         </div>
                         <div className={"score-value"}>
                             <p>{props.time_phase_1}</p>
-                            <p>{props.cards_to_recall}</p>
+                            <p>{props.cardsToRecall}</p>
                         </div>
                     </div>
                     <div className="score-element">
@@ -127,8 +111,8 @@ const Cards_Display = (props) => {
                         </div>
                         <div className={"score-value"}>
                             <p>{props.time_phase_3}</p>
-                            <p>{props.cards_recalled}</p>
-                            <p>{props.incorrect_recalls}</p>
+                            <p>{props.cardsRecalled}</p>
+                            <p>{props.incorrectRecalls}</p>
                             <p>{props.recall_rate} %</p>
                         </div>
                     </div>
@@ -175,7 +159,7 @@ const To_Recall = (props) => {
         <div id={"to_recall_display"} className={"game-text-center recall_display btn-palace clickablePassive"}>
             <div>
                 <p>Cards to Recall:</p>
-                <p>{props.cards_to_recall}</p>
+                <p>{props.cardsToRecall}</p>
             </div>
         </div>
     )
@@ -186,7 +170,7 @@ const Recalled = (props) => {
         <div id={"recalled_display"} className={"game-text-center recall_display btn-palace clickablePassive"}>
             <div>
                 <p>Cards Recalled:</p>
-                <p>{props.cards_recalled}</p>
+                <p>{props.cardsRecalled}</p>
             </div>
         </div>
     )

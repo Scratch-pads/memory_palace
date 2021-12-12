@@ -67,7 +67,7 @@ const Panel_Four = () => {
             <h3>This is because a 'Jack of Clubs' or your colleague's landline are abstract concepts. </h3>
             <h3>Your brain needs to 'materialize' or 'translate' them into something more real.</h3>
             <h3>A 'King of Diamonds' can become Jeff Bezos, a 'Two of Hearts' can transform into two swans touching
-            with their beaks and the bottom of their necks, creating that 'heart' shape in between them.</h3>
+            with their beaks and the bottom of their necks, creating that 'heart' shape between them.</h3>
         </div>
     )
 }

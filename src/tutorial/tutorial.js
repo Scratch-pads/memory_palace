@@ -1,8 +1,9 @@
 import React from "react";
-import {loc_deck_create, temp_deck_create, shuffle_deck, disable_buttons, reenable_buttons} from "./game";
-import {Menu_btn} from "./game_stuff/game_btns";
-import Tutorial_display from "./tutorial_stuff/tutorial_display";
-import {Tutorial_Next, Tutorial_Previous} from "./tutorial_stuff/tutorial_btns";
+import {Menu_btn} from "../game/game_btns";
+import Tutorial_display from "./tutorial_display";
+import {Tutorial_Next, Tutorial_Previous} from "./tutorial_btns";
+import {loc_deck_create, shuffleDeck, tempDeckCreate} from "../deckHelperFunctions";
+import {disableButtons, enableButtons} from "../visualsHelperFunctions";
 
 class Tutorial extends React.Component{
     constructor(props) {
@@ -10,7 +11,7 @@ class Tutorial extends React.Component{
         this.state = {
             tutorial_panel: 1,
             phase: 1,
-            shuffled_deck: shuffle_deck(temp_deck_create()),
+            shuffled_deck: shuffleDeck(tempDeckCreate()),
             cards_recalled: 0,
             cards_to_recall: 1,
             recall_check: true
@@ -64,10 +65,10 @@ class Tutorial extends React.Component{
         }
 
         if(tutorial_panel === 1){
-            reenable_buttons("previous-panel")
+            enableButtons("previous-panel")
         }
         if(tutorial_panel === 6 && cards_recalled === 10){
-            disable_buttons("next-panel")
+            disableButtons("next-panel")
         }
 
 
@@ -93,10 +94,10 @@ class Tutorial extends React.Component{
 
 
         if(tutorial_panel === 2){
-            disable_buttons("previous-panel")
+            disableButtons("previous-panel")
         }
         if (tutorial_panel === 7){
-            reenable_buttons("next-panel")
+            enableButtons("next-panel")
         }
     }
 

@@ -1,5 +1,4 @@
 import axios from "axios";
-import {time_parser} from "../game";
 
 const getScoresLocal = () => {
     axios.get('localhost:3001/show_local_scores').then(res => {
